@@ -1,11 +1,21 @@
-.sidebar{
+.sidebarLeft{
     height: 100vh;
-    background-color: tomato;
-    transition: width 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transition: width 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.sidebarTop{
+    width: 100vw;
+    transition: width 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    position: fixed;
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: #eeeeee;
+    z-index: 1;
 }
 
 .herosection{
     height: 100vh;
-    background-color: #44ce42;
-    transition: width 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transition: width 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    width: 100%;
 }

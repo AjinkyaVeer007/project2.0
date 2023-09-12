@@ -1,0 +1,11 @@
+.company-name{
+    background-color: #c2e2ff;
+    color: #53687d;
+    font-size: 14px;
+}
+
+.sidebar-item{
+    font-size: 14px;
+    color: #616161;
+    cursor: pointer;
+}
