@@ -1,11 +1,18 @@
 .company-name{
-    background-color: #c2e2ff;
-    color: #53687d;
+    /* background-color: #ffcfca;
+    color: #FF6D60; */
     font-size: 14px;
+    color: #616161;
 }
 
 .sidebar-item{
     font-size: 14px;
     color: #616161;
     cursor: pointer;
+}
+
+.sidebar-item-active{
+    background-color: #9376E0;
+    color: #fff;
+    font-weight: 500;
 }
