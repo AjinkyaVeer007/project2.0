@@ -10,7 +10,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    navigate('/auth/admin/dashboard')
+    navigate("/auth/admin/dashboard/welcome");
   };
   return (
     <>
@@ -22,20 +22,14 @@ function Login() {
             label="Employee Id"
             className="mb-3"
           >
-            <Form.Control
-              type="text"
-              placeholder="name@example.com"
-            />
+            <Form.Control type="text" placeholder="name@example.com" />
           </FloatingLabel>
           <FloatingLabel
             className="mb-4"
             controlId="floatingPassword"
             label="Password"
           >
-            <Form.Control
-              type="password"
-              placeholder="Password"
-            />
+            <Form.Control type="password" placeholder="Password" />
           </FloatingLabel>
           <Button onClick={handleLogin} className="mb-2" variant="primary">
             Login

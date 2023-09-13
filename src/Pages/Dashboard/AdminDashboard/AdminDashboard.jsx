@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AdminDashboard.css";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
+import ComponentRouting from "../../../Routes/ComponentRouting";
 
 function AdminDashboard() {
   const [showSidebarFromLeft, setShowSidebarFromLeft] = useState(true);
@@ -47,15 +48,17 @@ function AdminDashboard() {
         </div>
       )}
       <div className="herosection position-relative">
-        <div className="text-end">hiie</div>
         <div
           onClick={sidebarToggleFromLeft}
-          className="position-absolute top-0 start-0 fs-2 bi bi-list d-none d-lg-block"
+          className={`${
+            showSidebarFromLeft && "sidebarIcon-active"
+          } sidebarIcon position-absolute top-0 fs-5 start-0 bi bi-chevron-double-right d-none d-lg-block`}
         ></div>
         <div
           onClick={sidebarToggleFromTop}
-          className="position-absolute top-0 start-0 fs-2 text-warning bi bi-list d-lg-none"
+          className="position-absolute top-0 start-0 text-warning bi bi-chevron-double-right d-lg-none"
         ></div>
+        <ComponentRouting />
       </div>
     </div>
   );

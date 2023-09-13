@@ -9,7 +9,7 @@ function MainRouting() {
     <Routes>
         <Route path='/' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
-        <Route path='/auth/admin/dashboard' element={<AdminDashboard/>} />
+        <Route path='/auth/admin/dashboard/*' element={<AdminDashboard/>} />
     </Routes>
   )
 }

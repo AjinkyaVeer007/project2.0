@@ -2,9 +2,11 @@ import React from "react";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // get data from store
   const activeItemDetails = useSelector((state) => state.activeItemData);
@@ -27,14 +29,27 @@ function Sidebar() {
     },
   ];
 
-  const handleActiveItem = (id) => {
+  const handleActiveItem = (item) => {
     // dispatch active item id
     dispatch(
       activeData({
         name: "sidebarActiveItem",
-        value: id,
+        value: item.id,
       })
     );
+    switch (item.name) {
+      case "Create Company":
+        navigate("/auth/admin/dashboard/createcompany");
+        break;
+      case "All Projects":
+        navigate("/auth/admin/dashboard/projects");
+        break;
+      case "Logout":
+        navigate("/");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -55,7 +70,7 @@ function Sidebar() {
                   : ""
               } sidebar-item d-flex gap-2 align-items-center justify-content-start ms-3 me-2 mt-2 p-2 rounded-2`}
               onClick={() => {
-                handleActiveItem(item.id);
+                handleActiveItem(item);
               }}
             >
               <div className={`${item.icon}`}></div>
