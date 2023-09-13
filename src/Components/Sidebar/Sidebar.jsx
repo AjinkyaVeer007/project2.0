@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
 import { useNavigate } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ setShowSidebarFromTop }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,6 +37,7 @@ function Sidebar() {
         value: item.id,
       })
     );
+    setShowSidebarFromTop(false);
     switch (item.name) {
       case "Create Company":
         navigate("/auth/admin/dashboard/createcompany");
@@ -45,6 +46,12 @@ function Sidebar() {
         navigate("/auth/admin/dashboard/projects");
         break;
       case "Logout":
+        dispatch(
+          activeData({
+            name: "sidebarActiveItem",
+            value: null,
+          })
+        );
         navigate("/");
         break;
       default:
@@ -59,6 +66,7 @@ function Sidebar() {
         value: null,
       })
     );
+    setShowSidebarFromTop(false);
     navigate("/auth/admin/dashboard/welcome");
   };
 

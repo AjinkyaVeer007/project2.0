@@ -1,6 +1,7 @@
 import React from "react";
 import "./ProjectCard.css";
 import CardPattern from "../../Assets/SVG/cardpattern.svg";
+import CircularProgressBar from "../CircularProgressBar/CircularProgressBar";
 
 function ProjectCard() {
   return (
@@ -42,9 +43,7 @@ function ProjectCard() {
             <div className="text-white">05</div>
           </div>
         </div>
-        <div className="progressIconCircle">
-          <div className="progressIcon">50%</div>
-        </div>
+        <CircularProgressBar progreePercentage={70} />
       </div>
     </div>
   );

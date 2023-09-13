@@ -3,7 +3,7 @@ import ProjectCard from "../../Components/ProjectCard/ProjectCard";
 
 function Projects() {
   return (
-    <div className="row mt-3">
+    <div className="row mt-5">
       <ProjectCard />
     </div>
   );

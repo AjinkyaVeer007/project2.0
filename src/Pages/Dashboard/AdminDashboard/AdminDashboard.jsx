@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./AdminDashboard.css";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
 import ComponentRouting from "../../../Routes/ComponentRouting";
+import { AiOutlineMenu } from "react-icons/ai";
 
 function AdminDashboard() {
   const [showSidebarFromLeft, setShowSidebarFromLeft] = useState(true);
@@ -31,7 +32,9 @@ function AdminDashboard() {
         }`}
         style={{ width: showSidebarFromLeft ? "18%" : "0%" }}
       >
-        {showSidebarFromLeft && <Sidebar />}
+        {showSidebarFromLeft && (
+          <Sidebar setShowSidebarFromTop={setShowSidebarFromTop} />
+        )}
       </div>
       {showSidebarFromTop && (
         <div
@@ -44,20 +47,24 @@ function AdminDashboard() {
             }}
             className="bi bi-x-lg position-absolute top-0 left-0 m-2"
           ></div>
-          {showSidebarFromTop && <Sidebar />}
+          {showSidebarFromTop && (
+            <Sidebar setShowSidebarFromTop={setShowSidebarFromTop} />
+          )}
         </div>
       )}
       <div className="herosection position-relative">
-        <div
+        <AiOutlineMenu
           onClick={sidebarToggleFromLeft}
+          size={"30px"}
           className={`${
             showSidebarFromLeft && "sidebarIcon-active"
-          } sidebarIcon position-absolute top-0 fs-5 start-0 bi bi-chevron-double-right d-none d-lg-block`}
-        ></div>
-        <div
+          } sidebarIcon position-absolute top-0 m-2 fs-5 start-0 bi bi-chevron-double-right d-none d-lg-block`}
+        />
+        <AiOutlineMenu
           onClick={sidebarToggleFromTop}
-          className="position-absolute top-0 start-0 text-warning bi bi-chevron-double-right d-lg-none"
-        ></div>
+          size={"30px"}
+          className="sidebarIcon position-absolute top-0 start-0 m-2 bi bi-chevron-double-right d-lg-none"
+        />
         <ComponentRouting />
       </div>
     </div>

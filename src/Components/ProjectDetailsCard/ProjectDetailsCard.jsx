@@ -28,7 +28,7 @@ function ProjectDetailsCard() {
               <div>
                 <div
                   style={{ height: "5px" }}
-                  class="progress bg-white"
+                  className="progress bg-white"
                   role="progressbar"
                   aria-label="Basic example"
                   aria-valuenow="0"
@@ -36,7 +36,7 @@ function ProjectDetailsCard() {
                   aria-valuemax="100"
                 >
                   <div
-                    class={`progress-bar progress-bar-striped ${
+                    className={`progress-bar progress-bar-striped ${
                       item.progress <= 10 && "bg-danger"
                     } ${
                       item.progress > 10 && item.progress <= 99
