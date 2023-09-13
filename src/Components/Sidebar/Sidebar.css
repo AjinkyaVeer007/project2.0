@@ -1,8 +1,7 @@
 .company-name{
-    /* background-color: #ffcfca;
-    color: #FF6D60; */
     font-size: 14px;
     color: #616161;
+    cursor: pointer;
 }
 
 .sidebar-item{

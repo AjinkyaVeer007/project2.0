@@ -52,9 +52,22 @@ function Sidebar() {
     }
   };
 
+  const handleHome = () => {
+    dispatch(
+      activeData({
+        name: "sidebarActiveItem",
+        value: null,
+      })
+    );
+    navigate("/auth/admin/dashboard/welcome");
+  };
+
   return (
     <div>
-      <div className="d-flex gap-2 align-items-center justify-content-center mt-2 fw-bold p-2 mx-2 company-name">
+      <div
+        onClick={handleHome}
+        className="d-flex gap-2 align-items-center justify-content-center mt-2 fw-bold p-2 mx-2 company-name"
+      >
         <div className="bi bi-person-workspace"></div>
         <div>Company name</div>
       </div>
