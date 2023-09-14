@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
@@ -13,17 +13,22 @@ function Sidebar({ setShowSidebarFromTop }) {
 
   const sidebarArr = [
     {
-      id: 1,
+      id: useId(),
       name: "Create Company",
       icon: "bi bi-person-workspace",
     },
     {
-      id: 2,
+      id: useId(),
+      name: "Create Project",
+      icon: "bi bi-clipboard-data",
+    },
+    {
+      id: useId(),
       name: "All Projects",
       icon: "bi bi-list-task",
     },
     {
-      id: 3,
+      id: useId(),
       name: "Logout",
       icon: "bi bi-box-arrow-left",
     },

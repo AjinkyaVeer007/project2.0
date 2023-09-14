@@ -19,10 +19,10 @@ function Login() {
           <h4 className="fw-bold mb-3">Login</h4>
           <FloatingLabel
             controlId="floatingInput"
-            label="Employee Id"
+            label="Email"
             className="mb-3"
           >
-            <Form.Control type="text" placeholder="name@example.com" />
+            <Form.Control type="email" placeholder="name@example.com" />
           </FloatingLabel>
           <FloatingLabel
             className="mb-4"
