@@ -4,6 +4,7 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import EmployeeTable from "../../Components/EmployeeTable/EmployeeTable";
+import { MdModeEditOutline } from "react-icons/md";
 
 function Company() {
   const [dropdownValue, setDropdownValue] = useState("Select Post");
@@ -92,6 +93,10 @@ function Company() {
         </div>
       </div>
       <div className="row mt-5">
+        <div className="d-flex align-items-center justify-content-center gap-2 fs-5 mb-4 company-headingText">
+          <div>Magnite Solution Pvt. Ltd.</div>
+          <MdModeEditOutline size={"20px"} color="#44ce42" />
+        </div>
         <EmployeeTable />
       </div>
     </div>
