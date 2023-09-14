@@ -6,7 +6,7 @@ import CircularProgressBar from "../CircularProgressBar/CircularProgressBar";
 function ProjectCard() {
   return (
     <div className="col-12 col-lg-4 col-md-6 mb-2">
-      <div className="projectCard rounded-4 p-3 mx-3 position-relative">
+      <div className="projectCard shadow rounded-4 p-3 mx-3 position-relative">
         <div
           className="card-pattern"
           style={{ backgroundImage: `url(${CardPattern})` }}

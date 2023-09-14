@@ -1,5 +1,6 @@
 import Table from "react-bootstrap/Table";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import "./EmployeeTable.css";
 
 function EmployeeTable() {
   return (

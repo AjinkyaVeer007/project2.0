@@ -13,7 +13,7 @@ function ProjectDetailsCard() {
   ];
   return (
     <div className="col-lg-6 col-xl-6 col-md-6 col-12 mt-3">
-      <div className="rounded-4 projectDetailsCard mx-3 p-2 shadow-sm">
+      <div className="rounded-4 projectDetailsCard mx-3 p-2 shadow">
         <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
           <div className="bi bi-reception-3 text-danger"></div>
           <h5 className="text-center mb-2">Project Progress Status</h5>

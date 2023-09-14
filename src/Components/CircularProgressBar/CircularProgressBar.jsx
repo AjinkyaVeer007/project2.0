@@ -9,7 +9,7 @@ function CircularProgressBar({ progreePercentage }) {
         style={{
           backgroundImage: `conic-gradient(#fff ${progressDeg}deg, #9c80ff 0deg)`,
         }}
-        className="mainCicle"
+        className="mainCicle shadow"
       >
         <div className="subCircle">
           <div className="progresspercentage">{`${progreePercentage}%`}</div>

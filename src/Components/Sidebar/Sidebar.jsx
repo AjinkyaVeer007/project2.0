@@ -95,7 +95,7 @@ function Sidebar({ setShowSidebarFromTop }) {
               key={item.id}
               className={`${
                 activeItemDetails.sidebarActiveItem === item.id
-                  ? "sidebar-item-active"
+                  ? "sidebar-item-active shadow"
                   : ""
               } sidebar-item d-flex gap-2 align-items-center justify-content-start ms-3 me-2 mt-2 p-2 rounded-2`}
               onClick={() => {

@@ -5,11 +5,20 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { activeData } from "../../Store/activeSlice";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = () => {
+    dispatch(
+      activeData({
+        name: "sidebarActiveItem",
+        value: null,
+      })
+    );
     navigate("/auth/admin/dashboard/welcome");
   };
   return (
