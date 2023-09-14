@@ -31,6 +31,7 @@
 .projectCard{
     background-color: #9c80ff;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .card-pattern{

@@ -64,7 +64,7 @@ function Company() {
             <Dropdown.Toggle
               variant="warning"
               id="dropdown-basic"
-              className="text-white"
+              className="text-white m-2 p-3"
             >
               {dropdownValue}
             </Dropdown.Toggle>

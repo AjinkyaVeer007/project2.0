@@ -1,4 +1,4 @@
-import React, { useId } from "react";
+import React from "react";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
@@ -13,22 +13,22 @@ function Sidebar({ setShowSidebarFromTop }) {
 
   const sidebarArr = [
     {
-      id: useId(),
+      id: "#$createcompany",
       name: "Create Company",
       icon: "bi bi-person-workspace",
     },
     {
-      id: useId(),
+      id: "#$createproject",
       name: "Create Project",
       icon: "bi bi-clipboard-data",
     },
     {
-      id: useId(),
+      id: "#$allproject",
       name: "All Projects",
       icon: "bi bi-list-task",
     },
     {
-      id: useId(),
+      id: "#$logout",
       name: "Logout",
       icon: "bi bi-box-arrow-left",
     },
@@ -49,6 +49,9 @@ function Sidebar({ setShowSidebarFromTop }) {
         break;
       case "All Projects":
         navigate("/auth/admin/dashboard/projects");
+        break;
+      case "Create Project":
+        navigate("/auth/admin/dashboard/createproject");
         break;
       case "Logout":
         dispatch(
