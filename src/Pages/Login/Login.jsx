@@ -16,7 +16,7 @@ function Login() {
     dispatch(
       activeData({
         name: "sidebarActiveItem",
-        value: null,
+        value: "#$dashboard",
       })
     );
     navigate("/auth/admin/dashboard/welcome");

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    sidebarActiveItem: null
+    sidebarActiveItem: null,
+    leftSidebarActive: true,
+    topSidebarActive: false
 };
 
 const activeSlice = createSlice({

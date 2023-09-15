@@ -7,7 +7,7 @@ function WelcomeScreen() {
   const projectStatusArr = [
     { id: 1, name: "WORKING", count: "02" },
     { id: 2, name: "COMPLETED", count: "05" },
-    { id: 3, name: "COMPLETED", count: "07" },
+    { id: 3, name: "TOTAL", count: "07" },
   ];
 
   const employeeStatusArr = [

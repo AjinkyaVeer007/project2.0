@@ -13,9 +13,14 @@ function Sidebar({ setShowSidebarFromTop }) {
 
   const sidebarArr = [
     {
+      id: "#$dashboard",
+      name: "Dashboard",
+      icon: "bi bi-house-door-fill",
+    },
+    {
       id: "#$createcompany",
       name: "Create Company",
-      icon: "bi bi-person-workspace",
+      icon: "bi bi-building-add",
     },
     {
       id: "#$createproject",
@@ -34,6 +39,16 @@ function Sidebar({ setShowSidebarFromTop }) {
     },
   ];
 
+  const handleAllProjects = () => {
+    dispatch(
+      activeData({
+        name: "leftSidebarActive",
+        value: false,
+      })
+    );
+    navigate("/auth/admin/dashboard/projects");
+  };
+
   const handleActiveItem = (item) => {
     // dispatch active item id
     dispatch(
@@ -42,13 +57,21 @@ function Sidebar({ setShowSidebarFromTop }) {
         value: item.id,
       })
     );
-    setShowSidebarFromTop(false);
+    dispatch(
+      activeData({
+        name: "topSidebarActive",
+        value: false,
+      })
+    );
     switch (item.name) {
+      case "Dashboard":
+        navigate("/auth/admin/dashboard/welcome");
+        break;
       case "Create Company":
         navigate("/auth/admin/dashboard/createcompany");
         break;
       case "All Projects":
-        navigate("/auth/admin/dashboard/projects");
+        handleAllProjects();
         break;
       case "Create Project":
         navigate("/auth/admin/dashboard/createproject");
@@ -71,10 +94,15 @@ function Sidebar({ setShowSidebarFromTop }) {
     dispatch(
       activeData({
         name: "sidebarActiveItem",
-        value: null,
+        value: "#$dashboard",
       })
     );
-    setShowSidebarFromTop(false);
+    dispatch(
+      activeData({
+        name: "topSidebarActive",
+        value: false,
+      })
+    );
     navigate("/auth/admin/dashboard/welcome");
   };
 
