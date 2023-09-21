@@ -15,18 +15,29 @@ function Company() {
         <div className="text-center fs-5 mb-2 company-headingText">
           Register Your Company
         </div>
-        <div className="d-flex flex-wrap justify-content-start align-items-center mx-3 gap-2">
-          <FloatingLabel
+          <div className="row">
+            <div className="col-12 col-lg-6 col-xl-6">
+            <FloatingLabel
             controlId="floatingInput"
             label="Company Name"
-            className="flex-grow-1"
+            className="m-2"
           >
-            <Form.Control type="email" placeholder="name@example.com" />
+            <Form.Control type="text" placeholder="company name" />
           </FloatingLabel>
-          <div>
+            </div>
+            <div className="col-12 col-lg-6 col-xl-6">
+            <FloatingLabel
+            controlId="floatingInput"
+            label="Company URL"
+            className="m-2"
+          >
+            <Form.Control type="text" placeholder="company url" />
+          </FloatingLabel>
+            </div>
+          </div>
+          <div className="text-center mt-2">
             <button className="custom-btn rounded-2">Save</button>
           </div>
-        </div>
       </div>
       <hr />
       <div className="row">
@@ -93,10 +104,11 @@ function Company() {
         </div>
       </div>
       <div className="row mt-5">
-        <div className="d-flex align-items-center justify-content-center gap-2 fs-5 mb-4 company-headingText">
+        <div className="d-flex align-items-center justify-content-center gap-2 fs-5 company-headingText">
           <div>Magnite Solution Pvt. Ltd.</div>
           <MdModeEditOutline size={"20px"} color="#44ce42" />
         </div>
+        <a className="text-center mb-4" target="_blank" href="www.magnitesolutions.com">www.magnitesolutions.com</a>
         <EmployeeTable />
       </div>
     </div>
