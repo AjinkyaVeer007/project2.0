@@ -106,13 +106,13 @@ function CreateProject() {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div className="col-lg-5 col-12 col-md-6">
+      <div className="col-lg-6 col-12 col-md-6">
         <MultiSelectDropdown
           employeeData={managerList}
           placeholderName={"Assign Manager"}
         />
       </div>
-      <div className="col-lg-5 col-12 col-md-6">
+      <div className="col-lg-6 col-12 col-md-6">
         <MultiSelectDropdown
           employeeData={employeeList}
           placeholderName={"Assign Employee"}
