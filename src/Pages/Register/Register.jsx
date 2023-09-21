@@ -4,11 +4,22 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Register.css";
+import {useNavigate} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import {activeData} from "../../Store/activeSlice"
 
 function Register() {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleRegister = () => {
-    console.log("Clicked");
+    dispatch(
+      activeData({
+        name: "sidebarActiveItem",
+        value: "#$dashboard",
+      })
+    );
+    navigate("/auth/admin/dashboard/welcome")
   };
 
   return (
@@ -17,11 +28,11 @@ function Register() {
         <h4 className="fw-bold mb-3">Register</h4>
         <FloatingLabel
           controlId="floatingemail"
-          label="Employee Id"
+          label="Email"
           className="mb-3"
         >
           <Form.Control
-            type="text"
+            type="email"
             placeholder="name@example.com"
           />
         </FloatingLabel>
@@ -38,6 +49,18 @@ function Register() {
         <Button onClick={handleRegister} className="mb-2" variant="primary">
           Register
         </Button>
+        <div>
+            Already have an account ?{" "}
+            <span
+              className="text-primary"
+              onClick={() => {
+                navigate("/");
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              Login then..!
+            </span>
+          </div>
       </Card.Body>
     </Card>
   );
