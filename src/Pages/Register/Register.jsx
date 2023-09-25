@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
@@ -7,19 +7,56 @@ import "./Register.css";
 import {useNavigate} from "react-router-dom"
 import { useDispatch } from "react-redux";
 import {activeData} from "../../Store/activeSlice"
+import axios from "axios"
+import {toast} from "react-toastify"
+import {userData} from "../../Store/userSlice"
 
 function Register() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [registerForm, setRegisterForm] = useState({
+    name: "",
+    email: "",
+    password: ""
+  })
 
-  const handleRegister = () => {
-    dispatch(
-      activeData({
-        name: "sidebarActiveItem",
-        value: "#$dashboard",
-      })
-    );
-    navigate("/auth/admin/dashboard/welcome")
+  // for notification
+  const notify = (notification, type) =>
+  toast(notification, { autoClose: 2000, theme: "colored", type: type });
+
+  const handleForm = (e) => {
+    const {name, value} = e.target
+    setRegisterForm({...registerForm, [name]: value})
+  }
+
+  const BASE_URL = process.env.REACT_APP_BASE_URL
+
+  const register_Url = `${BASE_URL}register`
+
+  const handleRegister = async () => {
+    const data = {
+      name: registerForm.name,
+      email: registerForm.email,
+      password: registerForm.password,
+      userType: "admin"
+    }
+    await axios.post(register_Url, data).then((res) => {
+      if(res.data.status){
+        dispatch(
+          userData(res.data.user)
+        )
+        dispatch(
+          activeData({
+            name: "sidebarActiveItem",
+            value: "#$dashboard",
+          })
+        );
+        navigate("/auth/admin/dashboard/welcome")
+      }
+    }).catch((err) => {
+      console.log(err);
+      notify(err.response.data, "error")
+    })
   };
 
   return (
@@ -27,13 +64,29 @@ function Register() {
       <Card.Body>
         <h4 className="fw-bold mb-3">Register</h4>
         <FloatingLabel
+          controlId="floatingname"
+          label="Name"
+          className="mb-3"
+        >
+          <Form.Control
+            type="text"
+            name="name"
+            placeholder="name"
+            onChange={handleForm}
+            value={registerForm.name}
+          />
+        </FloatingLabel>
+        <FloatingLabel
           controlId="floatingemail"
           label="Email"
           className="mb-3"
         >
           <Form.Control
             type="email"
+            name="email"
             placeholder="name@example.com"
+            onChange={handleForm}
+            value={registerForm.email}
           />
         </FloatingLabel>
         <FloatingLabel
@@ -43,7 +96,10 @@ function Register() {
         >
           <Form.Control
             type="password"
+            name="password"
             placeholder="Password"
+            onChange={handleForm}
+            value={registerForm.password}
           />
         </FloatingLabel>
         <Button onClick={handleRegister} className="mb-2" variant="primary">

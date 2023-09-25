@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./Greeting.css";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 function Greeting() {
   const [greeting, setGreeting] = useState("");
+  const userDetails = useSelector((state) => state.userData)
 
   useEffect(() => {
     const currentTime = moment();
@@ -21,7 +23,7 @@ function Greeting() {
   return (
     <div className="greeting text-center mt-3">
       <h4>{greeting}</h4>
-      <div>Rushikesh Dhanawade</div>
+      <div>{userDetails.data.name}</div>
     </div>
   );
 }

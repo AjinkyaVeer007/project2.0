@@ -11,6 +11,9 @@ function AdminDashboard() {
 
   // get data from redux store
   const sidebarStatus = useSelector((state) => state.activeItemData);
+  const userDetails = useSelector((state) => state.userData)
+
+  console.log(userDetails);
 
   let { leftSidebarActive, topSidebarActive } = sidebarStatus;
 

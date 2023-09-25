@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import { combineReducers } from "@reduxjs/toolkit";
 import activeSlice from "./activeSlice";
+import userSlice from "./userSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,7 +19,8 @@ const persistConfig = {
 };
 
 const reducer = combineReducers({
-    activeItemData : activeSlice
+    activeItemData : activeSlice,
+    userData: userSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
