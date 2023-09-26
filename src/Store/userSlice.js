@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    data : null
+    userData : null,
+    companyData : null,
+    employeesList : []
 };
 
 const userSlice = createSlice({
@@ -9,7 +11,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     userData: (state, action) => {
-      state.data = action.payload
+      state[action.payload.name] = action.payload.value
     },
   },
 });

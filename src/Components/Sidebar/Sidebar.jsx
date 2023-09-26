@@ -40,12 +40,6 @@ function Sidebar({ setShowSidebarFromTop }) {
   ];
 
   const handleAllProjects = () => {
-    dispatch(
-      activeData({
-        name: "leftSidebarActive",
-        value: false,
-      })
-    );
     navigate("/auth/admin/dashboard/projects");
   };
 

@@ -23,7 +23,7 @@ function Greeting() {
   return (
     <div className="greeting text-center mt-3">
       <h4>{greeting}</h4>
-      <div>{userDetails.data.name}</div>
+      <div>{userDetails.userData?.name}</div>
     </div>
   );
 }

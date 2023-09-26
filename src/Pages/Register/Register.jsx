@@ -34,29 +34,41 @@ function Register() {
   const register_Url = `${BASE_URL}register`
 
   const handleRegister = async () => {
-    const data = {
-      name: registerForm.name,
-      email: registerForm.email,
-      password: registerForm.password,
-      userType: "admin"
-    }
-    await axios.post(register_Url, data).then((res) => {
-      if(res.data.status){
-        dispatch(
-          userData(res.data.user)
-        )
-        dispatch(
-          activeData({
-            name: "sidebarActiveItem",
-            value: "#$dashboard",
-          })
-        );
-        navigate("/auth/admin/dashboard/welcome")
+    if(registerForm.name.length && registerForm.email.length && registerForm.password.length){
+      const data = {
+        name: registerForm.name,
+        email: registerForm.email,
+        password: registerForm.password,
+        userType: "admin"
       }
-    }).catch((err) => {
-      console.log(err);
-      notify(err.response.data, "error")
-    })
+      await axios.post(register_Url, data).then((res) => {
+        if(res.data.status){
+          dispatch(
+            userData({
+              name: "userData",
+              value: res.data.user
+            })
+          )
+          dispatch(
+            activeData({
+              name: "sidebarActiveItem",
+              value: "#$dashboard",
+            })
+          );
+          setRegisterForm({
+            name: "",
+            email: "",
+            password: ""
+          })
+          navigate("/auth/admin/dashboard/welcome")
+        }
+      }).catch((err) => {
+        console.log(err);
+        notify(err.response.data, "error")
+      })
+    } else{
+      notify("All fields are mandatory", "info")
+    }
   };
 
   return (

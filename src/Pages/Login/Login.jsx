@@ -34,27 +34,44 @@ function Login() {
 
 
   const handleLogin = async () => {
-    const data = {
-      email: loginForm.email,
-      password: loginForm.password
-    }
-    await axios.post(login_Url, data).then((res) => {
-      if(res.data.status){
-        dispatch(
-          userData(res.data.user)
-        )
-        dispatch(
-          activeData({
-            name: "sidebarActiveItem",
-            value: "#$dashboard",
-          })
-        );        
-       navigate("/auth/admin/dashboard/welcome");
+    if(loginForm.email.length && loginForm.password){
+      const data = {
+        email: loginForm.email,
+        password: loginForm.password
       }
-    }).catch((err) => {
-      console.log(err);
-      notify(err.response.data, "error")
-    })
+      await axios.post(login_Url, data).then((res) => {
+        if(res.data.status){
+          dispatch(
+            userData({
+              name: "userData",
+              value: res.data.user
+            })
+          )
+          dispatch(
+            userData({
+              name: "companyData",
+              value: res.data.companyData
+            })
+          )
+          dispatch(
+            activeData({
+              name: "sidebarActiveItem",
+              value: "#$dashboard",
+            })
+          );     
+          setLoginForm({
+            email: "",
+            password: ""
+          })   
+         navigate("/auth/admin/dashboard/welcome");
+        }
+      }).catch((err) => {
+        console.log(err);
+        notify(err.response.data, "error")
+      })
+    } else{
+      notify("All fields are mandatory", "info")
+    }
   };
   return (
     <>

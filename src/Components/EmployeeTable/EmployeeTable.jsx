@@ -1,8 +1,11 @@
 import Table from "react-bootstrap/Table";
 import { MdModeEditOutline, MdDelete } from "react-icons/md";
 import "./EmployeeTable.css";
+import { useSelector } from "react-redux";
 
 function EmployeeTable() {
+  const userDetails = useSelector((state) => state.userData);
+
   return (
     <Table hover responsive>
       <thead>
@@ -16,19 +19,22 @@ function EmployeeTable() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>1</td>
-          <td>Rushi</td>
-          <td>rushi@gmail.com</td>
-          <td>1234@3432</td>
-          <td>Manager</td>
-          <td>
-            <div className="d-flex align-items-center gap-3">
-              <MdModeEditOutline size={"20px"} color="#44ce42" />
-              <MdDelete size={"20px"} color="tomato" />
-            </div>
-          </td>
-        </tr>
+        {userDetails.employeesList.length &&
+          userDetails.employeesList.map((item, index) => (
+            <tr key={item._id}>
+              <td>{index + 1}</td>
+              <td>{item.name}</td>
+              <td>{item.email}</td>
+              <td>{item.password}</td>
+              <td>{item.userType}</td>
+              <td>
+                <div className="d-flex align-items-center gap-3">
+                  <MdModeEditOutline size={"20px"} color="#44ce42" />
+                  <MdDelete size={"20px"} color="tomato" />
+                </div>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </Table>
   );
