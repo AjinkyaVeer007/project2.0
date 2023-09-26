@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CreateProject.css";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
 import MultiSelectDropdown from "../../Components/MultiSelectDropdown/MultiSelectDropdown";
-import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { activeData } from "../../Store/activeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import ProjectTable from "../../Components/ProjectTable/ProjectTable";
+import axios from "axios";
+import { userData } from "../../Store/userSlice";
 
 function CreateProject() {
   const [dropdownValue, setDropdownValue] = useState("Select Priority");
+
+  const userDetails = useSelector((state) => state.userData);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,15 +32,38 @@ function CreateProject() {
     { value: "omkar", label: "omkar@gmail.com" },
   ];
 
-  const handleNavigation = () => {
-    dispatch(
-      activeData({
-        name: "sidebarActiveItem",
-        value: "#$allproject",
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+  const getProject_url = `${BASE_URL}getprojects`;
+
+  const getProjects = async () => {
+    const data = {
+      adminId:
+        userDetails.userData.userType === "admin"
+          ? userDetails.userData._id
+          : userDetails.userData.adminId,
+    };
+
+    await axios
+      .post(getProject_url, data)
+      .then((res) => {
+        if (res.data.status) {
+          dispatch(
+            userData({
+              name: "projectList",
+              value: res.data.projectData,
+            })
+          );
+        }
       })
-    );
-    navigate("/auth/admin/dashboard/projects");
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  useEffect(() => {
+    getProjects();
+  }, []);
 
   return (
     <div className="row mt-5">
@@ -118,18 +144,11 @@ function CreateProject() {
           placeholderName={"Assign Employee"}
         />
       </div>
-      <div className="text-center">
+      <div className="text-center mb-4">
         <button className="custom-btn rounded-2 mt-4">Create</button>
       </div>
-      <div
-        onClick={handleNavigation}
-        className="viewProjectText position-absolute bottom-0 end-0 w-auto m-2"
-      >
-        <div className="d-flex align-items-center gap-2">
-          <div>View Project</div>
-          <BsArrowRight />
-        </div>
-      </div>
+      <hr />
+      <ProjectTable />
     </div>
   );
 }

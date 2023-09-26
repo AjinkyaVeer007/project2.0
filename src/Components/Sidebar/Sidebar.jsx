@@ -71,17 +71,39 @@ function Sidebar({ setShowSidebarFromTop }) {
         navigate("/auth/admin/dashboard/createproject");
         break;
       case "Logout":
-        dispatch(
-          activeData({
-            name: "sidebarActiveItem",
-            value: null,
-          })
-        );
-        navigate("/");
+        handleLogout();
         break;
       default:
         break;
     }
+  };
+
+  const handleLogout = () => {
+    dispatch(
+      activeData({
+        name: "sidebarActiveItem",
+        value: null,
+      })
+    );
+    dispatch(
+      activeData({
+        name: "companyData",
+        value: null,
+      })
+    );
+    dispatch(
+      activeData({
+        name: "employeesList",
+        value: [],
+      })
+    );
+    dispatch(
+      activeData({
+        name: "projectList",
+        value: [],
+      })
+    );
+    navigate("/");
   };
 
   const handleHome = () => {

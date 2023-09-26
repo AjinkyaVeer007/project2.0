@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     userData : null,
     companyData : null,
-    employeesList : []
+    employeesList : [],
+    projectList : []
 };
 
 const userSlice = createSlice({

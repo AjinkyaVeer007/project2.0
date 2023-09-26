@@ -62,7 +62,7 @@ function Company() {
       <a
         className="text-center mb-4"
         target="_blank"
-        href="www.magnitesolutions.com"
+        href={userDetails.companyData?.url}
       >
         {userDetails.companyData?.url}
       </a>
