@@ -2,6 +2,7 @@ import React from "react";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
+import { userData } from "../../Store/userSlice";
 import { useNavigate } from "react-router-dom";
 
 function Sidebar({ setShowSidebarFromTop }) {
@@ -86,19 +87,19 @@ function Sidebar({ setShowSidebarFromTop }) {
       })
     );
     dispatch(
-      activeData({
+      userData({
         name: "companyData",
         value: null,
       })
     );
     dispatch(
-      activeData({
+      userData({
         name: "employeesList",
         value: [],
       })
     );
     dispatch(
-      activeData({
+      userData({
         name: "projectList",
         value: [],
       })

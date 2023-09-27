@@ -188,9 +188,13 @@ function RegisterEmployees() {
           </button>
         </div>
       </div>
-      <div className="row mt-5">
-        <EmployeeTable />
-      </div>
+      {userDetails.employeesList.length ? (
+        <div className="row mt-5">
+          <EmployeeTable />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

@@ -147,8 +147,14 @@ function CreateProject() {
       <div className="text-center mb-4">
         <button className="custom-btn rounded-2 mt-4">Create</button>
       </div>
-      <hr />
-      <ProjectTable />
+      {userDetails.projectList.length ? (
+        <>
+          <hr />
+          <ProjectTable />
+        </>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

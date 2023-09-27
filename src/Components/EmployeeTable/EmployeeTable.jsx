@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 function EmployeeTable() {
   const userDetails = useSelector((state) => state.userData);
 
+  console.log(userDetails);
+
   return (
     <Table hover responsive>
       <thead>

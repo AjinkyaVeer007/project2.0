@@ -7,70 +7,72 @@ import "./Login.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
-import {userData} from "../../Store/userSlice"
-import axios from "axios"
-import {toast} from "react-toastify"
+import { userData } from "../../Store/userSlice";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginForm, setLoginForm] = useState({
     email: "",
-    password: ""
-  })
+    password: "",
+  });
 
   // for notification
   const notify = (notification, type) =>
-  toast(notification, { autoClose: 2000, theme: "colored", type: type });
+    toast(notification, { autoClose: 2000, theme: "colored", type: type });
 
   const handleForm = (e) => {
-    const {name, value} = e.target
-    setLoginForm({...loginForm, [name]: value})
-  }
+    const { name, value } = e.target;
+    setLoginForm({ ...loginForm, [name]: value });
+  };
 
-  const BASE_URL = process.env.REACT_APP_BASE_URL
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const login_Url = `${BASE_URL}login`
-
+  const login_Url = `${BASE_URL}login`;
 
   const handleLogin = async () => {
-    if(loginForm.email.length && loginForm.password){
+    if (loginForm.email.length && loginForm.password) {
       const data = {
         email: loginForm.email,
-        password: loginForm.password
-      }
-      await axios.post(login_Url, data).then((res) => {
-        if(res.data.status){
-          dispatch(
-            userData({
-              name: "userData",
-              value: res.data.user
-            })
-          )
-          dispatch(
-            userData({
-              name: "companyData",
-              value: res.data.companyData
-            })
-          )
-          dispatch(
-            activeData({
-              name: "sidebarActiveItem",
-              value: "#$dashboard",
-            })
-          );     
-          setLoginForm({
-            email: "",
-            password: ""
-          })   
-         navigate("/auth/admin/dashboard/welcome");
-        }
-      }).catch((err) => {
-        console.log(err);
-        notify(err.response.data, "error")
-      })
-    } else{
-      notify("All fields are mandatory", "info")
+        password: loginForm.password,
+      };
+      await axios
+        .post(login_Url, data)
+        .then((res) => {
+          if (res.data.status) {
+            dispatch(
+              userData({
+                name: "userData",
+                value: res.data.user,
+              })
+            );
+            dispatch(
+              userData({
+                name: "companyData",
+                value: res.data.companyData,
+              })
+            );
+            dispatch(
+              activeData({
+                name: "sidebarActiveItem",
+                value: "#$dashboard",
+              })
+            );
+            setLoginForm({
+              email: "",
+              password: "",
+            });
+            navigate("/auth/admin/dashboard/welcome");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          notify(err.response.data, "error");
+        });
+    } else {
+      notify("All fields are mandatory", "info");
     }
   };
   return (
@@ -83,14 +85,26 @@ function Login() {
             label="Email"
             className="mb-3"
           >
-            <Form.Control value={loginForm.email} onChange={handleForm} type="email" name="email" placeholder="name@example.com" />
+            <Form.Control
+              value={loginForm.email}
+              onChange={handleForm}
+              type="email"
+              name="email"
+              placeholder="name@example.com"
+            />
           </FloatingLabel>
           <FloatingLabel
             className="mb-4"
             controlId="floatingPassword"
             label="Password"
           >
-            <Form.Control value={loginForm.password} name="password" onChange={handleForm} type="password" placeholder="Password" />
+            <Form.Control
+              value={loginForm.password}
+              name="password"
+              onChange={handleForm}
+              type="password"
+              placeholder="Password"
+            />
           </FloatingLabel>
           <Button onClick={handleLogin} className="mb-2" variant="primary">
             Login

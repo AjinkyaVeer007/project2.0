@@ -13,8 +13,8 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
 
   const userDetails = useSelector((state) => state.userData);
   const [editForm, setEditForm] = useState({
-    name: userDetails.companyData.name,
-    url: userDetails.companyData.url,
+    name: userDetails.companyData?.name,
+    url: userDetails.companyData?.url,
   });
 
   const handleChange = (e) => {
@@ -24,7 +24,7 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const editCompany_url = `${BASE_URL}updatecompanydetails/${userDetails.companyData._id}`;
+  const editCompany_url = `${BASE_URL}updatecompanydetails/${userDetails.companyData?._id}`;
 
   const handleEdit = async () => {
     if (
