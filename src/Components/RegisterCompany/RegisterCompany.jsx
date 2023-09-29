@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { MdModeEditOutline } from "react-icons/md";
+import EditCompanyModal from "../Modals/EditCompanyModal/EditCompanyModal";
+import { userData } from "../../Store/userSlice";
 
 function RegisterCompany() {
   // for notification
@@ -11,6 +14,9 @@ function RegisterCompany() {
     toast(notification, { autoClose: 2000, theme: "colored", type: type });
 
   const userDetails = useSelector((state) => state.userData);
+
+  const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
 
   const [companyForm, setCompanyForm] = useState({
     name: "",
@@ -55,52 +61,115 @@ function RegisterCompany() {
       notify("Company name is mandatory", "info");
     }
   };
+
+  const handleShow = () => {
+    setShow(!show);
+  };
+
+  const getCompany_url = `${BASE_URL}getcompany`;
+
+  const handleCompanyDetails = async () => {
+    const data = {
+      adminId:
+        userDetails.userData.userType === "admin"
+          ? userDetails.userData._id
+          : userDetails.userData.adminId,
+    };
+
+    await axios
+      .post(getCompany_url, data)
+      .then((res) => {
+        if (res.data.status) {
+          dispatch(
+            userData({
+              name: "companyData",
+              value: res.data.companyData,
+            })
+          );
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (!userDetails.companyData) {
+      handleCompanyDetails();
+    }
+  }, [handleCompanyDetails]);
   return (
-    <div className="col-12 mb-4">
-      <div className="text-center fs-5 mb-2 company-headingText">
-        Register Your Company
-      </div>
-      <div className="row">
-        <div className="col-12 col-lg-6 col-xl-6">
-          <FloatingLabel
-            controlId="floatingInput"
-            label="Company Name"
-            className="m-2"
-          >
-            <Form.Control
-              onChange={handleForm}
-              value={companyForm.name}
-              type="text"
-              name="name"
-              placeholder="company name"
-            />
-          </FloatingLabel>
+    <>
+      {!userDetails.companyData ? (
+        <div className="col-12 mb-4">
+          <div className="text-center fs-5 mb-2 company-headingText">
+            Register Your Company
+          </div>
+          <div className="row">
+            <div className="col-12 col-lg-6 col-xl-6">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Company Name"
+                className="m-2"
+              >
+                <Form.Control
+                  onChange={handleForm}
+                  value={companyForm.name}
+                  type="text"
+                  name="name"
+                  placeholder="company name"
+                />
+              </FloatingLabel>
+            </div>
+            <div className="col-12 col-lg-6 col-xl-6">
+              <FloatingLabel
+                controlId="floatingInput"
+                label="Company URL"
+                className="m-2"
+              >
+                <Form.Control
+                  onChange={handleForm}
+                  value={companyForm.url}
+                  type="text"
+                  name="url"
+                  placeholder="company url"
+                />
+              </FloatingLabel>
+            </div>
+          </div>
+          <div className="text-center mt-2">
+            <button
+              onClick={handleRegisterCompany}
+              className="custom-btn rounded-2"
+            >
+              Save
+            </button>
+          </div>
         </div>
-        <div className="col-12 col-lg-6 col-xl-6">
-          <FloatingLabel
-            controlId="floatingInput"
-            label="Company URL"
-            className="m-2"
-          >
-            <Form.Control
-              onChange={handleForm}
-              value={companyForm.url}
-              type="text"
-              name="url"
-              placeholder="company url"
+      ) : (
+        <>
+          <div className="d-flex align-items-center justify-content-center gap-2 fs-5 company-headingText">
+            <div>{userDetails.companyData?.name}</div>
+            <MdModeEditOutline
+              size={"20px"}
+              color="#44ce42"
+              onClick={handleShow}
             />
-          </FloatingLabel>
-        </div>
-      </div>
-      <div className="text-center mt-2">
-        <button
-          onClick={handleRegisterCompany}
-          className="custom-btn rounded-2"
-        >
-          Save
-        </button>
-      </div>
-    </div>
+          </div>
+          <div className="text-center mb-4">
+            <a target="_blank" href={userDetails.companyData?.url}>
+              {userDetails.companyData?.url}
+            </a>
+          </div>
+          <EditCompanyModal
+            handleShow={handleShow}
+            show={show}
+            handleCompanyDetails={handleCompanyDetails}
+          />
+          <hr />
+        </>
+      )}
+    </>
   );
 }
 

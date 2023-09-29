@@ -27,29 +27,33 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
   const editCompany_url = `${BASE_URL}updatecompanydetails/${userDetails.companyData?._id}`;
 
   const handleEdit = async () => {
-    if (
-      editForm.name !== userDetails.companyData.name ||
-      editForm.url !== userDetails.companyData.url
-    ) {
-      const data = {
-        name: editForm.name,
-        url: editForm.url,
-      };
-
-      await axios
-        .put(editCompany_url, data)
-        .then((res) => {
-          if (res.data.status) {
-            notify("Company details updated successfully", "success");
-            handleCompanyDetails();
-            handleShow();
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      handleShow();
+    if(editForm.name.length){
+      if (
+        editForm.name !== userDetails.companyData.name ||
+        editForm.url !== userDetails.companyData.url
+      ) {
+        const data = {
+          name: editForm.name,
+          url: editForm.url,
+        };
+  
+        await axios
+          .put(editCompany_url, data)
+          .then((res) => {
+            if (res.data.status) {
+              notify("Company details updated successfully", "success");
+              handleCompanyDetails();
+              handleShow();
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        handleShow();
+      }
+    } else{
+      notify("Company name can't be empty", "error")
     }
   };
 

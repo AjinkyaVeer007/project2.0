@@ -47,6 +47,8 @@ function RegisterEmployees() {
         password: registerForm.password,
         userType: dropdownValue === "Select Post" ? "Employee" : dropdownValue,
         adminId: userDetails.userData.adminId || userDetails.userData._id,
+        isPasswordChange: false,
+        defaultPassword: registerForm.password,
       };
       await axios
         .post(register_Url, data)
@@ -64,7 +66,7 @@ function RegisterEmployees() {
         })
         .catch((err) => {
           console.log(err);
-          notify("User already register", "error");
+          notify(err.response.data, "error");
         });
     } else {
       notify("All fields are mandatory", "info");
@@ -91,8 +93,13 @@ function RegisterEmployees() {
           );
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        dispatch(
+          userData({
+            name: "employeesList",
+            value: [],
+          })
+        );
       });
   };
 
@@ -139,7 +146,7 @@ function RegisterEmployees() {
         <div className="col-lg-3 col-12 col-md-4">
           <FloatingLabel
             controlId="floatingInput"
-            label="Employee Password"
+            label="One Time Password"
             className="m-2"
           >
             <Form.Control
@@ -190,7 +197,7 @@ function RegisterEmployees() {
       </div>
       {userDetails.employeesList.length ? (
         <div className="row mt-5">
-          <EmployeeTable />
+          <EmployeeTable handleEmployeeList={handleEmployeeList} />
         </div>
       ) : (
         ""
