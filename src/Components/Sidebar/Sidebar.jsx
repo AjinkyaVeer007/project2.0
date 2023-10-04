@@ -11,6 +11,7 @@ function Sidebar({ setShowSidebarFromTop }) {
 
   // get data from store
   const activeItemDetails = useSelector((state) => state.activeItemData);
+  const userDetails = useSelector((state) => state.userData);
 
   const sidebarArr = [
     {
@@ -130,7 +131,11 @@ function Sidebar({ setShowSidebarFromTop }) {
         className="d-flex gap-2 align-items-center justify-content-center mt-2 fw-bold p-2 mx-2 company-name"
       >
         <div className="bi bi-person-workspace"></div>
-        <div>Company name</div>
+        {userDetails.companyData ? (
+          <div>{userDetails.companyData.name}</div>
+        ) : (
+          <div>Create Company</div>
+        )}
       </div>
       <hr />
       <div className="mt-3">
