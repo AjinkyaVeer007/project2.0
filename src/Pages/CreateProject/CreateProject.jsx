@@ -315,7 +315,11 @@ function CreateProject() {
         {userDetails.projectList.length ? (
           <>
             <hr />
-            <ProjectTable getProjects={getProjects} />
+            <ProjectTable
+              getProjects={getProjects}
+              employeeData={employeelist}
+              managerData={managerlist}
+            />
           </>
         ) : (
           ""

@@ -8,7 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import EditProjectModal from "../Modals/EditProjectModal/EditProjectModal";
 
-function ProjectTable({ getProjects }) {
+function ProjectTable({ getProjects, employeeData, managerData }) {
   const navigate = useNavigate();
   const userDetails = useSelector((state) => state.userData);
 
@@ -19,7 +19,7 @@ function ProjectTable({ getProjects }) {
     setSelectedData(
       userDetails.projectList.filter((employee) => {
         return employee._id === id;
-      })[0]
+      })
     );
     setShow(!show);
   };
@@ -60,8 +60,8 @@ function ProjectTable({ getProjects }) {
               <th>Start Date</th>
               <th>Proposed End Date</th>
               <th>Priority</th>
-              <th>Managers Assign</th>
-              <th>Emplyees Assign</th>
+              <th>Assign Managers</th>
+              <th>Assign Employees</th>
               <th>Task Allocation</th>
               <th>Actions</th>
             </tr>
@@ -77,16 +77,11 @@ function ProjectTable({ getProjects }) {
                   <td>
                     <div
                       style={{
-                        backgroundColor: `${
-                          item.priority === "High" ? "#ffeeee" : ""
-                        } ${item.priority === "Medium" ? "#fff2df" : ""} ${
-                          item.priority === "Moderate" ? "#e1ffd8" : ""
-                        } `,
                         color: `${item.priority === "High" ? "#ff4848" : ""} ${
                           item.priority === "Medium" ? "#ffb648" : ""
                         } ${item.priority === "Moderate" ? "#64f837" : ""}`,
                       }}
-                      className="priority rounded-pill"
+                      className="fw-bold"
                     >
                       {item.priority}
                     </div>
@@ -132,6 +127,8 @@ function ProjectTable({ getProjects }) {
         handleShow={handleShow}
         getProjects={getProjects}
         data={selectedData}
+        employeeData={employeeData}
+        managerData={managerData}
       />
     </>
   );

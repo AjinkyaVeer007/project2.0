@@ -8,7 +8,14 @@ import { toast } from "react-toastify";
 import Dropdown from "react-bootstrap/Dropdown";
 import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown";
 
-function EditProjectModal({ handleShow, show, getProjects, data }) {
+function EditProjectModal({
+  handleShow,
+  show,
+  getProjects,
+  data,
+  employeeData,
+  managerData,
+}) {
   // for notification
   const notify = (notification, type) =>
     toast(notification, { autoClose: 1000, theme: "colored", type: type });
@@ -16,18 +23,46 @@ function EditProjectModal({ handleShow, show, getProjects, data }) {
   const userDetails = useSelector((state) => state.userData);
 
   const [editForm, setEditForm] = useState({
-    name: data?.name,
-    startDate: data?.startDate,
-    proposeEndDate: data?.proposeEndDate,
+    name: data[0]?.name,
+    startDate: data[0]?.startDate,
+    proposeEndDate: data[0]?.proposeEndDate,
   });
   const [dropdownValue, setDropdownValue] = useState(
-    data?.priority || "Select Priority"
+    data[0]?.priority || "Select Priority"
   );
+  const [existingEmployees, setExistingEmployees] = useState([]);
+  const [existingManagers, setExistingManagers] = useState([]);
+
+  const handleDefaultSelectedList = () => {
+    setExistingEmployees([]);
+    setExistingManagers([]);
+    if (data[0].managers) {
+      for (let i = 0; i < data[0].managers.length; i++) {
+        let newObj = {
+          value: data[0].managers[i],
+          label: data[0].managers[i].email,
+        };
+        setExistingManagers((prev) => [...prev, newObj]);
+      }
+    }
+    if (data[0].employees) {
+      for (let i = 0; i < data[0].employees.length; i++) {
+        let newObj = {
+          value: data[0].employees[i],
+          label: data[0].employees[i].email,
+        };
+        setExistingEmployees((prev) => [...prev, newObj]);
+      }
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditForm((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handleSelectedEmployees = (data) => {};
+  const handleSelectedManagers = (data) => {};
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -37,11 +72,14 @@ function EditProjectModal({ handleShow, show, getProjects, data }) {
 
   useEffect(() => {
     setEditForm({
-      name: data?.name,
-      startDate: data?.startDate,
-      proposeEndDate: data?.proposeEndDate,
+      name: data[0]?.name,
+      startDate: data[0]?.startDate,
+      proposeEndDate: data[0]?.proposeEndDate,
     });
-    setDropdownValue(data?.priority || "Select Priority");
+    setDropdownValue(data[0]?.priority || "Select Priority");
+    if (data.length) {
+      handleDefaultSelectedList();
+    }
   }, [data]);
 
   return (
@@ -130,17 +168,19 @@ function EditProjectModal({ handleShow, show, getProjects, data }) {
           </div>
           <div className="col-lg-6 col-12 col-md-6">
             <MultiSelectDropdown
-              employeeData={[]}
+              employeeData={managerData}
               placeholderName={"Assign Manager"}
-              handleSelectedInfo={[]}
+              handleSelectedInfo={handleSelectedEmployees}
+              defaultSelectedList={existingManagers}
               isEmpty={false}
             />
           </div>
           <div className="col-lg-6 col-12 col-md-6">
             <MultiSelectDropdown
-              employeeData={[]}
+              employeeData={employeeData}
               placeholderName={"* Assign Employee"}
-              handleSelectedInfo={[]}
+              handleSelectedInfo={handleSelectedManagers}
+              defaultSelectedList={existingEmployees}
               isEmpty={false}
             />
           </div>

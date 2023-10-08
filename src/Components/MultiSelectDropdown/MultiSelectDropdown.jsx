@@ -7,6 +7,7 @@ export default function MultiSelectDropdown({
   placeholderName,
   handleSelectedInfo,
   isEmpty,
+  defaultSelectedList,
 }) {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
@@ -20,6 +21,15 @@ export default function MultiSelectDropdown({
       setSelectedOptions([]);
     }
   }, [isEmpty]);
+
+  useEffect(() => {
+    if (defaultSelectedList) {
+      setSelectedOptions([]);
+      setSelectedOptions(defaultSelectedList);
+    } else {
+      setSelectedOptions([]);
+    }
+  }, [defaultSelectedList]);
   return (
     <div className="dropdown-container m-2">
       <Select
