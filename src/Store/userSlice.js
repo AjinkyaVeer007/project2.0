@@ -1,18 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-    userData : null,
-    companyData : null,
-    employeesList : [],
-    projectList : []
-};
+const initialState = null;
 
 const userSlice = createSlice({
   name: "userData",
   initialState,
   reducers: {
     userData: (state, action) => {
-      state[action.payload.name] = action.payload.value
+      return action.payload
     },
   },
 });

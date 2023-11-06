@@ -51,6 +51,7 @@ function EditEmployeeModal({ handleShow, show, data, handleEmployeeList }) {
             if (res.data.status) {
               handleShow();
               handleEmployeeList();
+              notify("User edited successfully", "success");
             }
           })
           .catch((err) => {

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
 import { userData } from "../../Store/userSlice";
+import { companyData } from "../../Store/companySlice";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -42,18 +43,8 @@ function Login() {
         .post(login_Url, data)
         .then((res) => {
           if (res.data.status) {
-            dispatch(
-              userData({
-                name: "userData",
-                value: res.data.user,
-              })
-            );
-            dispatch(
-              userData({
-                name: "companyData",
-                value: res.data.companyData,
-              })
-            );
+            dispatch(userData(res.data.user));
+            dispatch(companyData(res.data.companyData));
             dispatch(
               activeData({
                 name: "sidebarActiveItem",

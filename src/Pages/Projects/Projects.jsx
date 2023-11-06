@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { userData } from "../../Store/userSlice";
+import { projectData } from "../../Store/projectSlice";
 
 function Projects() {
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ function Projects() {
     toast(notification, { autoClose: 2000, theme: "colored", type: type });
 
   const userDetails = useSelector((state) => state.userData);
+  const projectDetails = useSelector((state) => state.projectsData);
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -23,21 +24,16 @@ function Projects() {
   const getProjects = async () => {
     const data = {
       adminId:
-        userDetails.userData.userType === "admin"
-          ? userDetails.userData._id
-          : userDetails.userData.adminId,
+        userDetails?.userType === "admin"
+          ? userDetails?._id
+          : userDetails?.adminId,
     };
 
     await axios
       .post(getProject_url, data)
       .then((res) => {
         if (res.data.status) {
-          dispatch(
-            userData({
-              name: "projectList",
-              value: res.data.projectData,
-            })
-          );
+          dispatch(projectData(res.data.projectData));
         }
       })
       .catch((err) => {
@@ -56,8 +52,8 @@ function Projects() {
       </div>
       <hr />
       <div className="row">
-        {userDetails.projectList &&
-          userDetails.projectList.map((project) => (
+        {projectDetails.length &&
+          projectDetails.map((project) => (
             <ProjectCard key={project._id} data={project} />
           ))}
       </div>

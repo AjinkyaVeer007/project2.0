@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import EmployeeTable from "../EmployeeTable/EmployeeTable";
 import { userData } from "../../Store/userSlice";
+import { employeeData } from "../../Store/employeeSlice";
 
 function RegisterEmployees() {
   // for notification
@@ -29,6 +30,7 @@ function RegisterEmployees() {
   };
 
   const userDetails = useSelector((state) => state.userData);
+  const employeesDetails = useSelector((state) => state.employeesData);
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -46,7 +48,7 @@ function RegisterEmployees() {
         email: registerForm.email,
         password: registerForm.password,
         userType: dropdownValue === "Select Post" ? "Employee" : dropdownValue,
-        adminId: userDetails.userData.adminId || userDetails.userData._id,
+        adminId: userDetails.adminId || userDetails._id,
         isPasswordChange: false,
         defaultPassword: registerForm.password,
       };
@@ -76,30 +78,20 @@ function RegisterEmployees() {
   const handleEmployeeList = async () => {
     const data = {
       adminId:
-        userDetails.userData.userType === "admin"
-          ? userDetails.userData._id
-          : userDetails.userData.adminId,
+        userDetails?.userType === "admin"
+          ? userDetails?._id
+          : userDetails?.adminId,
     };
 
     await axios
       .post(getEmployees_url, data)
       .then((res) => {
         if (res.data.status) {
-          dispatch(
-            userData({
-              name: "employeesList",
-              value: res.data.users,
-            })
-          );
+          dispatch(employeeData(res.data.users));
         }
       })
       .catch(() => {
-        dispatch(
-          userData({
-            name: "employeesList",
-            value: [],
-          })
-        );
+        dispatch(userData([]));
       });
   };
 
@@ -195,7 +187,7 @@ function RegisterEmployees() {
           </button>
         </div>
       </div>
-      {userDetails.employeesList.length ? (
+      {employeesDetails?.employees?.length ? (
         <div className="row mt-5">
           <EmployeeTable handleEmployeeList={handleEmployeeList} />
         </div>

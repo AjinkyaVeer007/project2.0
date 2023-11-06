@@ -1,68 +1,101 @@
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Dropdown from "react-bootstrap/Dropdown";
-import MultiSelectDropdown from "../../MultiSelectDropdown/MultiSelectDropdown";
+import { MdDelete } from "react-icons/md";
+import {
+  assignEmployeesList,
+  handleAssign,
+  handleRemoveAssign,
+} from "../../../Store/assignEmployeesSlice";
 
-function EditProjectModal({
-  handleShow,
-  show,
-  getProjects,
-  data,
-  employeeData,
-  managerData,
-}) {
+function EditProjectModal({ handleShow, show }) {
+  const dispatch = useDispatch();
   // for notification
   const notify = (notification, type) =>
     toast(notification, { autoClose: 1000, theme: "colored", type: type });
 
   const userDetails = useSelector((state) => state.userData);
+  const projectDetails = useSelector((state) => state.projectModalData);
+  const employeesDetails = useSelector((state) => state.employeesData);
+  const assignEmployeesDetails = useSelector(
+    (state) => state.assignEmployeesData
+  );
 
   const [editForm, setEditForm] = useState({
-    name: data[0]?.name,
-    startDate: data[0]?.startDate,
-    proposeEndDate: data[0]?.proposeEndDate,
+    name: "",
+    startDate: "",
+    proposeEndDate: "",
   });
-  const [dropdownValue, setDropdownValue] = useState(
-    data[0]?.priority || "Select Priority"
-  );
-  const [existingEmployees, setExistingEmployees] = useState([]);
-  const [existingManagers, setExistingManagers] = useState([]);
-
-  const handleDefaultSelectedList = () => {
-    setExistingEmployees([]);
-    setExistingManagers([]);
-    if (data[0].managers) {
-      for (let i = 0; i < data[0].managers.length; i++) {
-        let newObj = {
-          value: data[0].managers[i],
-          label: data[0].managers[i].email,
-        };
-        setExistingManagers((prev) => [...prev, newObj]);
-      }
-    }
-    if (data[0].employees) {
-      for (let i = 0; i < data[0].employees.length; i++) {
-        let newObj = {
-          value: data[0].employees[i],
-          label: data[0].employees[i].email,
-        };
-        setExistingEmployees((prev) => [...prev, newObj]);
-      }
-    }
-  };
+  const [dropdownValue, setDropdownValue] = useState("Select Priority");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEditForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSelectedEmployees = (data) => {};
-  const handleSelectedManagers = (data) => {};
+  const handleEmployeeList = () => {
+    let employeeArr = [];
+    let managerArr = [];
+    for (let i = 0; i < employeesDetails?.employees?.length; i++) {
+      let data = {
+        name: employeesDetails.employees[i].name,
+        email: employeesDetails.employees[i].email,
+        id: employeesDetails.employees[i]._id,
+        userType: employeesDetails.employees[i].userType,
+        assign: false,
+      };
+      employeeArr.push(data);
+    }
+    for (let i = 0; i < employeesDetails?.managers?.length; i++) {
+      let data = {
+        name: employeesDetails.managers[i].name,
+        email: employeesDetails.managers[i].email,
+        id: employeesDetails.managers[i]._id,
+        userType: employeesDetails.managers[i].userType,
+        assign: false,
+      };
+      managerArr.push(data);
+    }
+    dispatch(
+      assignEmployeesList({
+        type: "assignEmployees",
+        value: employeeArr,
+      })
+    );
+
+    dispatch(
+      assignEmployeesList({
+        type: "assignManagers",
+        value: managerArr,
+      })
+    );
+  };
+
+  const handleSelectedEmployees = () => {
+    handleEmployeeList();
+    for (let i = 0; i < projectDetails?.managers?.length; i++) {
+      dispatch(
+        handleAssign({
+          type: "assignManagers",
+          id: projectDetails?.managers[i].id,
+        })
+      );
+    }
+
+    for (let i = 0; i < projectDetails?.employees?.length; i++) {
+      dispatch(
+        handleAssign({
+          type: "assignEmployees",
+          id: projectDetails?.employees[i].id,
+        })
+      );
+    }
+  };
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -71,17 +104,19 @@ function EditProjectModal({
   const handleEdit = async () => {};
 
   useEffect(() => {
-    setEditForm({
-      name: data[0]?.name,
-      startDate: data[0]?.startDate,
-      proposeEndDate: data[0]?.proposeEndDate,
-    });
-    setDropdownValue(data[0]?.priority || "Select Priority");
-    if (data.length) {
-      handleDefaultSelectedList();
+    setEditForm((prev) => ({
+      ...prev,
+      name: projectDetails?.name,
+      startDate: projectDetails?.startDate,
+      proposeEndDate: projectDetails?.proposeEndDate,
+    }));
+    setDropdownValue(projectDetails?.priority);
+    if (show) {
+      handleSelectedEmployees();
+    } else {
+      handleEmployeeList();
     }
-  }, [data]);
-
+  }, [show]);
   return (
     <Modal show={show} onHide={handleShow} size="lg">
       <Modal.Body>
@@ -167,22 +202,132 @@ function EditProjectModal({
             </FloatingLabel>
           </div>
           <div className="col-lg-6 col-12 col-md-6">
-            <MultiSelectDropdown
-              employeeData={managerData}
-              placeholderName={"Assign Manager"}
-              handleSelectedInfo={handleSelectedEmployees}
-              defaultSelectedList={existingManagers}
-              isEmpty={false}
-            />
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="secondary"
+                id="dropdown-basic"
+                className="text-white m-2 p-3"
+              >
+                Assign Managers
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {assignEmployeesDetails?.assignManagers?.length &&
+                  assignEmployeesDetails?.assignManagers.map((manager) => {
+                    return (
+                      <Fragment key={manager.id}>
+                        {!manager.assign && (
+                          <Dropdown.Item
+                            onClick={() => {
+                              dispatch(
+                                handleAssign({
+                                  type: "assignManagers",
+                                  id: manager.id,
+                                })
+                              );
+                            }}
+                            key={manager.id}
+                          >
+                            {manager.name}
+                          </Dropdown.Item>
+                        )}
+                      </Fragment>
+                    );
+                  })}
+              </Dropdown.Menu>
+            </Dropdown>
+            <div className="row m-2">
+              {assignEmployeesDetails?.assignManagers?.length &&
+                assignEmployeesDetails.assignManagers.map((manager) => {
+                  return (
+                    <Fragment key={manager.id}>
+                      {manager.assign && (
+                        <>
+                          <div className="col-10 p-1">{manager.name}</div>
+                          <div className="col-2 p-1 text-danger">
+                            <MdDelete
+                              size={"20px"}
+                              onClick={() => {
+                                dispatch(
+                                  handleRemoveAssign({
+                                    type: "assignManagers",
+                                    id: manager.id,
+                                  })
+                                );
+                              }}
+                            />
+                          </div>
+                          <hr />
+                        </>
+                      )}
+                    </Fragment>
+                  );
+                })}
+            </div>
           </div>
           <div className="col-lg-6 col-12 col-md-6">
-            <MultiSelectDropdown
-              employeeData={employeeData}
-              placeholderName={"* Assign Employee"}
-              handleSelectedInfo={handleSelectedManagers}
-              defaultSelectedList={existingEmployees}
-              isEmpty={false}
-            />
+            <Dropdown>
+              <Dropdown.Toggle
+                variant="secondary"
+                id="dropdown-basic"
+                className="text-white m-2 p-3"
+              >
+                Assign Employees
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                {assignEmployeesDetails?.assignEmployees?.length &&
+                  assignEmployeesDetails?.assignEmployees.map((employee) => {
+                    return (
+                      <Fragment key={employee.id}>
+                        {!employee.assign && (
+                          <Dropdown.Item
+                            onClick={() => {
+                              dispatch(
+                                handleAssign({
+                                  type: "assignEmployees",
+                                  id: employee.id,
+                                })
+                              );
+                            }}
+                            key={employee.id}
+                          >
+                            {employee.name}
+                          </Dropdown.Item>
+                        )}
+                      </Fragment>
+                    );
+                  })}
+              </Dropdown.Menu>
+            </Dropdown>
+            <div className="row m-2">
+              {assignEmployeesDetails?.assignEmployees?.length &&
+                assignEmployeesDetails.assignEmployees.map((employee) => {
+                  return (
+                    <Fragment key={employee.id}>
+                      {employee.assign && (
+                        <>
+                          <div className="col-10 p-1">{employee.name}</div>
+                          <div className="col-2 p-1 text-danger">
+                            <MdDelete
+                              size={"20px"}
+                              onClick={() => {
+                                dispatch(
+                                  handleRemoveAssign({
+                                    type: "assignEmployees",
+                                    id: employee.id,
+                                  })
+                                );
+                              }}
+                            />
+                          </div>
+                          <hr />
+                        </>
+                      )}
+                    </Fragment>
+                  );
+                })}
+            </div>
           </div>
         </div>
         <div className="text-center mt-2">

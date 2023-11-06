@@ -3,24 +3,26 @@ import "./ProjectTable.css";
 import Table from "react-bootstrap/Table";
 import { MdRemoveRedEye, MdDelete, MdModeEditOutline } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import EditProjectModal from "../Modals/EditProjectModal/EditProjectModal";
+import { projectModalData } from "../../Store/projectModalSlice";
 
-function ProjectTable({ getProjects, employeeData, managerData }) {
+function ProjectTable({ getProjects }) {
   const navigate = useNavigate();
-  const userDetails = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+
+  const projectDetails = useSelector((state) => state.projectsData);
 
   const [show, setShow] = useState(false);
-  const [selectedData, setSelectedData] = useState([]);
 
-  const handleShow = (id) => {
-    setSelectedData(
-      userDetails.projectList.filter((employee) => {
-        return employee._id === id;
-      })
-    );
+  const handleShow = () => {
+    setShow(!show);
+  };
+
+  const handleModal = (data) => {
+    dispatch(projectModalData(data));
     setShow(!show);
   };
 
@@ -67,8 +69,8 @@ function ProjectTable({ getProjects, employeeData, managerData }) {
             </tr>
           </thead>
           <tbody>
-            {userDetails.projectList &&
-              userDetails.projectList.map((item, index) => (
+            {projectDetails.length &&
+              projectDetails.map((item, index) => (
                 <tr key={item._id}>
                   <td>{index + 1}</td>
                   <td>{item.name}</td>
@@ -104,7 +106,7 @@ function ProjectTable({ getProjects, employeeData, managerData }) {
                   <td className="d-flex align-items-center justify-content-center gap-3">
                     <MdModeEditOutline
                       onClick={() => {
-                        handleShow(item._id);
+                        handleModal(item);
                       }}
                       size={"20px"}
                       color="#44ce42"
@@ -122,14 +124,7 @@ function ProjectTable({ getProjects, employeeData, managerData }) {
           </tbody>
         </Table>
       </div>
-      <EditProjectModal
-        show={show}
-        handleShow={handleShow}
-        getProjects={getProjects}
-        data={selectedData}
-        employeeData={employeeData}
-        managerData={managerData}
-      />
+      <EditProjectModal show={show} handleShow={handleShow} />
     </>
   );
 }

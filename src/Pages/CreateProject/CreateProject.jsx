@@ -1,35 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./CreateProject.css";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Dropdown from "react-bootstrap/Dropdown";
-import MultiSelectDropdown from "../../Components/MultiSelectDropdown/MultiSelectDropdown";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectTable from "../../Components/ProjectTable/ProjectTable";
 import axios from "axios";
-import { userData } from "../../Store/userSlice";
+import { projectData } from "../../Store/projectSlice";
+import {
+  assignEmployeesList,
+  handleAssign,
+  handleRemoveAssign,
+} from "../../Store/assignEmployeesSlice";
 import { toast } from "react-toastify";
-import EditProjectModal from "../../Components/Modals/EditProjectModal/EditProjectModal";
+import { MdDelete } from "react-icons/md";
 
 function CreateProject() {
   const [dropdownValue, setDropdownValue] = useState("Select Priority");
-  const [managerlist, setManagerlist] = useState([]);
-  const [employeelist, setEmployeelist] = useState([]);
-  const [assignEmployees, setAssignEmployees] = useState([]);
-  const [assignManagers, setAssignManagers] = useState([]);
   const [projectForm, setProjectForm] = useState({
     name: "",
     startDate: "",
     proposeEndDate: "",
   });
-  const [isEmpty, setIsEmpty] = useState(false);
 
   // for notification
   const notify = (notification, type) =>
     toast(notification, { autoClose: 2000, theme: "colored", type: type });
 
   const userDetails = useSelector((state) => state.userData);
+  const employeesDetails = useSelector((state) => state.employeesData);
+  const projectDetails = useSelector((state) => state.projectsData);
+  const assignEmployeesDetails = useSelector(
+    (state) => state.assignEmployeesData
+  );
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,112 +41,64 @@ function CreateProject() {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const getProject_url = `${BASE_URL}getprojects`;
-  const getEmployees_url = `${BASE_URL}getemployees`;
   const createProject_url = `${BASE_URL}createproject`;
 
-  const handleEmployeeList = async () => {
-    const data = {
-      adminId:
-        userDetails.userData.userType === "admin"
-          ? userDetails.userData._id
-          : userDetails.userData.adminId,
-    };
-
-    await axios
-      .post(getEmployees_url, data)
-      .then((res) => {
-        if (res.data.status) {
-          dispatch(
-            userData({
-              name: "employeesList",
-              value: res.data.users,
-            })
-          );
-          getEmployeeList();
-        }
-      })
-      .catch(() => {
-        dispatch(
-          userData({
-            name: "employeesList",
-            value: [],
-          })
-        );
-      });
-  };
-
   const getEmployeeList = () => {
-    setEmployeelist([]);
-    setManagerlist([]);
-    const employees = userDetails.employeesList.filter((user) => {
-      return user.userType === "Employee";
-    });
-    for (let i = 0; i < employees.length; i++) {
+    let employeeArr = [];
+    let managerArr = [];
+    for (let i = 0; i < employeesDetails?.employees?.length; i++) {
       let data = {
-        value: {
-          name: employees[i].name,
-          email: employees[i].email,
-          id: employees[i]._id,
-          userType: employees[i].userType,
-        },
-        label: employees[i].email,
+        name: employeesDetails.employees[i].name,
+        email: employeesDetails.employees[i].email,
+        id: employeesDetails.employees[i]._id,
+        userType: employeesDetails.employees[i].userType,
+        assign: false,
       };
-      setEmployeelist((prev) => [...prev, data]);
+      employeeArr.push(data);
     }
-    const managers = userDetails.employeesList.filter((user) => {
-      return user.userType === "Manager";
-    });
-    for (let i = 0; i < managers.length; i++) {
+    for (let i = 0; i < employeesDetails?.managers?.length; i++) {
       let data = {
-        value: {
-          name: managers[i].name,
-          email: managers[i].email,
-          id: managers[i]._id,
-          userType: managers[i].userType,
-        },
-        label: managers[i].email,
+        name: employeesDetails.managers[i].name,
+        email: employeesDetails.managers[i].email,
+        id: employeesDetails.managers[i]._id,
+        userType: employeesDetails.managers[i].userType,
+        assign: false,
       };
-      setManagerlist((prev) => [...prev, data]);
+      managerArr.push(data);
     }
+    dispatch(
+      assignEmployeesList({
+        type: "assignEmployees",
+        value: employeeArr,
+      })
+    );
+
+    dispatch(
+      assignEmployeesList({
+        type: "assignManagers",
+        value: managerArr,
+      })
+    );
   };
 
   const getProjects = async () => {
     const data = {
       adminId:
-        userDetails.userData.userType === "admin"
-          ? userDetails.userData._id
-          : userDetails.userData.adminId,
+        userDetails?.userType === "admin"
+          ? userDetails?._id
+          : userDetails?.adminId,
     };
 
     await axios
       .post(getProject_url, data)
       .then((res) => {
         if (res.data.status) {
-          dispatch(
-            userData({
-              name: "projectList",
-              value: res.data.projectData,
-            })
-          );
+          dispatch(projectData(res.data.projectData));
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const handleSelectedManagers = (data) => {
-    setAssignManagers([]);
-    for (let i = 0; i < data.length; i++) {
-      setAssignManagers((prev) => [...prev, data[i].value]);
-    }
-  };
-
-  const handleSelectedEmployees = (data) => {
-    setAssignEmployees([]);
-    for (let i = 0; i < data.length; i++) {
-      setAssignEmployees((prev) => [...prev, data[i].value]);
-    }
   };
 
   const handleForm = (e) => {
@@ -151,16 +107,45 @@ function CreateProject() {
   };
 
   const createProject = async () => {
+    let assignEmployeeslist = [];
+    let assignManagersList = [];
+
+    let employeeArr = assignEmployeesDetails.assignEmployees.filter(
+      (employee) => {
+        return employee.assign === true;
+      }
+    );
+
+    for (let i = 0; i < employeeArr.length; i++) {
+      let obj = {
+        name: employeeArr[i].name,
+        email: employeeArr[i].email,
+        id: employeeArr[i].id,
+      };
+      assignEmployeeslist.push(obj);
+    }
+
+    let managerArr = assignEmployeesDetails.assignManagers.filter((manager) => {
+      return manager.assign === true;
+    });
+
+    for (let i = 0; i < managerArr.length; i++) {
+      let obj = {
+        name: managerArr[i].name,
+        email: managerArr[i].email,
+        id: managerArr[i].id,
+      };
+      assignManagersList.push(obj);
+    }
+
     const data = {
       name: projectForm.name,
       startDate: projectForm.startDate,
       proposeEndDate: projectForm.proposeEndDate,
       priority: dropdownValue === "Select Priority" ? "Medium" : dropdownValue,
-      managers: assignManagers.length ? assignManagers : null,
-      employees: assignEmployees,
-      adminId: userDetails.userData.adminId
-        ? userDetails.userData.adminId
-        : userDetails.userData._id,
+      managers: assignManagersList,
+      employees: assignEmployeeslist,
+      adminId: userDetails?.adminId ? userDetails?.adminId : userDetails?._id,
     };
 
     await axios
@@ -174,7 +159,7 @@ function CreateProject() {
             proposeEndDate: "",
           });
           setDropdownValue("Select Priority");
-          setIsEmpty(true);
+          getEmployeeList();
           getProjects();
         }
       })
@@ -188,8 +173,7 @@ function CreateProject() {
     if (
       projectForm.name.length &&
       projectForm.startDate.length &&
-      projectForm.proposeEndDate.length &&
-      assignEmployees.length
+      projectForm.proposeEndDate.length
     ) {
       createProject();
     } else {
@@ -199,7 +183,7 @@ function CreateProject() {
 
   useEffect(() => {
     getProjects();
-    handleEmployeeList();
+    getEmployeeList();
   }, []);
 
   return (
@@ -289,20 +273,132 @@ function CreateProject() {
           </Dropdown>
         </div>
         <div className="col-lg-6 col-12 col-md-6">
-          <MultiSelectDropdown
-            employeeData={managerlist}
-            placeholderName={"Assign Manager"}
-            handleSelectedInfo={handleSelectedManagers}
-            isEmpty={isEmpty}
-          />
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="secondary"
+              id="dropdown-basic"
+              className="text-white m-2 p-3"
+            >
+              Assign Managers
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {assignEmployeesDetails?.assignManagers?.length &&
+                assignEmployeesDetails?.assignManagers.map((manager) => {
+                  return (
+                    <Fragment key={manager.id}>
+                      {!manager.assign && (
+                        <Dropdown.Item
+                          onClick={() => {
+                            dispatch(
+                              handleAssign({
+                                type: "assignManagers",
+                                id: manager.id,
+                              })
+                            );
+                          }}
+                          key={manager.id}
+                        >
+                          {manager.name}
+                        </Dropdown.Item>
+                      )}
+                    </Fragment>
+                  );
+                })}
+            </Dropdown.Menu>
+          </Dropdown>
+          <div className="row m-2">
+            {assignEmployeesDetails?.assignManagers?.length &&
+              assignEmployeesDetails.assignManagers.map((manager) => {
+                return (
+                  <Fragment key={manager.id}>
+                    {manager.assign && (
+                      <>
+                        <div className="col-10 p-1">{manager.name}</div>
+                        <div className="col-2 p-1 text-danger">
+                          <MdDelete
+                            size={"20px"}
+                            onClick={() => {
+                              dispatch(
+                                handleRemoveAssign({
+                                  type: "assignManagers",
+                                  id: manager.id,
+                                })
+                              );
+                            }}
+                          />
+                        </div>
+                        <hr />
+                      </>
+                    )}
+                  </Fragment>
+                );
+              })}
+          </div>
         </div>
         <div className="col-lg-6 col-12 col-md-6">
-          <MultiSelectDropdown
-            employeeData={employeelist}
-            placeholderName={"* Assign Employee"}
-            handleSelectedInfo={handleSelectedEmployees}
-            isEmpty={isEmpty}
-          />
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="secondary"
+              id="dropdown-basic"
+              className="text-white m-2 p-3"
+            >
+              Assign Employees
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {assignEmployeesDetails?.assignEmployees?.length &&
+                assignEmployeesDetails?.assignEmployees.map((employee) => {
+                  return (
+                    <Fragment key={employee.id}>
+                      {!employee.assign && (
+                        <Dropdown.Item
+                          onClick={() => {
+                            dispatch(
+                              handleAssign({
+                                type: "assignEmployees",
+                                id: employee.id,
+                              })
+                            );
+                          }}
+                          key={employee.id}
+                        >
+                          {employee.name}
+                        </Dropdown.Item>
+                      )}
+                    </Fragment>
+                  );
+                })}
+            </Dropdown.Menu>
+          </Dropdown>
+          <div className="row m-2">
+            {assignEmployeesDetails?.assignEmployees?.length &&
+              assignEmployeesDetails.assignEmployees.map((employee) => {
+                return (
+                  <Fragment key={employee.id}>
+                    {employee.assign && (
+                      <>
+                        <div className="col-10 p-1">{employee.name}</div>
+                        <div className="col-2 p-1 text-danger">
+                          <MdDelete
+                            size={"20px"}
+                            onClick={() => {
+                              dispatch(
+                                handleRemoveAssign({
+                                  type: "assignEmployees",
+                                  id: employee.id,
+                                })
+                              );
+                            }}
+                          />
+                        </div>
+                        <hr />
+                      </>
+                    )}
+                  </Fragment>
+                );
+              })}
+          </div>
         </div>
         <div className="text-center mb-4">
           <button
@@ -312,14 +408,10 @@ function CreateProject() {
             Create
           </button>
         </div>
-        {userDetails.projectList.length ? (
+        {projectDetails.length ? (
           <>
             <hr />
-            <ProjectTable
-              getProjects={getProjects}
-              employeeData={employeelist}
-              managerData={managerlist}
-            />
+            <ProjectTable getProjects={getProjects} />
           </>
         ) : (
           ""

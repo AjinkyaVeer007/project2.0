@@ -11,10 +11,11 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
   const notify = (notification, type) =>
     toast(notification, { autoClose: 1000, theme: "colored", type: type });
 
-  const userDetails = useSelector((state) => state.userData);
+  const companyDetails = useSelector((state) => state.companyData);
+
   const [editForm, setEditForm] = useState({
-    name: userDetails.companyData?.name,
-    url: userDetails.companyData?.url,
+    name: companyDetails?.name,
+    url: companyDetails?.url,
   });
 
   const handleChange = (e) => {
@@ -24,19 +25,19 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const editCompany_url = `${BASE_URL}updatecompanydetails/${userDetails.companyData?._id}`;
+  const editCompany_url = `${BASE_URL}updatecompanydetails/${companyDetails?._id}`;
 
   const handleEdit = async () => {
-    if(editForm.name.length){
+    if (editForm.name.length) {
       if (
-        editForm.name !== userDetails.companyData.name ||
-        editForm.url !== userDetails.companyData.url
+        editForm.name !== companyDetails?.name ||
+        editForm.url !== companyDetails?.url
       ) {
         const data = {
           name: editForm.name,
           url: editForm.url,
         };
-  
+
         await axios
           .put(editCompany_url, data)
           .then((res) => {
@@ -52,8 +53,8 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
       } else {
         handleShow();
       }
-    } else{
-      notify("Company name can't be empty", "error")
+    } else {
+      notify("Company name can't be empty", "error");
     }
   };
 

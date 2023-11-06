@@ -12,6 +12,11 @@ import {
 import { combineReducers } from "@reduxjs/toolkit";
 import activeSlice from "./activeSlice";
 import userSlice from "./userSlice";
+import companySlice from "./companySlice";
+import employeeSlice from "./employeeSlice";
+import projectSlice from "./projectSlice";
+import assignEmployees from "./assignEmployeesSlice";
+import projectModalSlice from "./projectModalSlice";
 
 const persistConfig = {
   key: "root",
@@ -20,7 +25,12 @@ const persistConfig = {
 
 const reducer = combineReducers({
     activeItemData : activeSlice,
-    userData: userSlice
+    userData: userSlice,
+    companyData: companySlice,
+    employeesData: employeeSlice,
+    projectsData:  projectSlice,
+    assignEmployeesData : assignEmployees,
+    projectModalData : projectModalSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -13,15 +13,25 @@ function EmployeeTable({ handleEmployeeList }) {
     toast(notification, { autoClose: 1000, theme: "colored", type: type });
 
   const userDetails = useSelector((state) => state.userData);
+  const employeesDetails = useSelector((state) => state.employeesData);
+
   const [show, setShow] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
 
-  const handleShow = (id) => {
-    setSelectedData(
-      userDetails.employeesList.filter((employee) => {
-        return employee._id === id;
-      })[0]
-    );
+  const handleShow = (id, userType) => {
+    if (userType === "Manager") {
+      setSelectedData(
+        employeesDetails?.managers.filter((manager) => {
+          return manager._id === id;
+        })[0]
+      );
+    } else {
+      setSelectedData(
+        employeesDetails?.employees.filter((employee) => {
+          return employee._id === id;
+        })[0]
+      );
+    }
     setShow(!show);
   };
 
@@ -57,8 +67,8 @@ function EmployeeTable({ handleEmployeeList }) {
           </tr>
         </thead>
         <tbody>
-          {userDetails.employeesList.length &&
-            userDetails.employeesList.map((item, index) => (
+          {employeesDetails?.managers.length &&
+            employeesDetails?.managers.map((item, index) => (
               <tr key={item._id}>
                 <td>{index + 1}</td>
                 <td>{item.name}</td>
@@ -71,7 +81,37 @@ function EmployeeTable({ handleEmployeeList }) {
                       size={"20px"}
                       color="#44ce42"
                       onClick={() => {
-                        handleShow(item._id);
+                        handleShow(item._id, item.userType);
+                      }}
+                    />
+                    <MdDelete
+                      onClick={() => {
+                        handleDeleteEmployee(item._id);
+                      }}
+                      size={"20px"}
+                      color="tomato"
+                    />
+                  </div>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+        <tbody>
+          {employeesDetails?.employees.length &&
+            employeesDetails?.employees.map((item, index) => (
+              <tr key={item._id}>
+                <td>{index + 1}</td>
+                <td>{item.name}</td>
+                <td>{item.email}</td>
+                <td>{!item.isPasswordChange && item.defaultPassword}</td>
+                <td>{item.userType}</td>
+                <td>
+                  <div className="d-flex align-items-center gap-3">
+                    <MdModeEditOutline
+                      size={"20px"}
+                      color="#44ce42"
+                      onClick={() => {
+                        handleShow(item._id, item.userType);
                       }}
                     />
                     <MdDelete

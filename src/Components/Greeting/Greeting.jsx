@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 function Greeting() {
   const [greeting, setGreeting] = useState("");
-  const userDetails = useSelector((state) => state.userData)
+  const userDetails = useSelector((state) => state.userData);
 
   useEffect(() => {
     const currentTime = moment();
@@ -23,7 +23,7 @@ function Greeting() {
   return (
     <div className="greeting text-center mt-3">
       <h4>{greeting}</h4>
-      <div>{userDetails.userData?.name}</div>
+      <div>{userDetails?.name}</div>
     </div>
   );
 }

@@ -3,7 +3,11 @@ import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
 import { userData } from "../../Store/userSlice";
+import { companyData } from "../../Store/companySlice";
+import { employeeData } from "../../Store/employeeSlice";
 import { useNavigate } from "react-router-dom";
+import { projectData } from "../../Store/projectSlice";
+import { assignEmployeesList } from "../../Store/assignEmployeesSlice";
 
 function Sidebar({ setShowSidebarFromTop }) {
   const dispatch = useDispatch();
@@ -11,7 +15,7 @@ function Sidebar({ setShowSidebarFromTop }) {
 
   // get data from store
   const activeItemDetails = useSelector((state) => state.activeItemData);
-  const userDetails = useSelector((state) => state.userData);
+  const companyDetails = useSelector((state) => state.companyData);
 
   const sidebarArr = [
     {
@@ -87,21 +91,19 @@ function Sidebar({ setShowSidebarFromTop }) {
         value: null,
       })
     );
+    dispatch(companyData(null));
+    dispatch(userData(null));
+    dispatch(employeeData([]));
+    dispatch(projectData([]));
     dispatch(
-      userData({
-        name: "companyData",
-        value: null,
-      })
-    );
-    dispatch(
-      userData({
-        name: "employeesList",
+      assignEmployeesList({
+        type: "assignEmployees",
         value: [],
       })
     );
     dispatch(
-      userData({
-        name: "projectList",
+      assignEmployeesList({
+        type: "assignManagers",
         value: [],
       })
     );
@@ -131,8 +133,8 @@ function Sidebar({ setShowSidebarFromTop }) {
         className="d-flex gap-2 align-items-center justify-content-center mt-2 fw-bold p-2 mx-2 company-name"
       >
         <div className="bi bi-person-workspace"></div>
-        {userDetails.companyData ? (
-          <div>{userDetails.companyData.name}</div>
+        {companyDetails ? (
+          <div>{companyDetails.name}</div>
         ) : (
           <div>Create Company</div>
         )}
