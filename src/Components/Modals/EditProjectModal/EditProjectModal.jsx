@@ -13,7 +13,7 @@ import {
   handleRemoveAssign,
 } from "../../../Store/assignEmployeesSlice";
 
-function EditProjectModal({ handleShow, show }) {
+function EditProjectModal({ handleShow, show, getProjects }) {
   const dispatch = useDispatch();
   // for notification
   const notify = (notification, type) =>
@@ -99,9 +99,64 @@ function EditProjectModal({ handleShow, show }) {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  const editCompany_url = `${BASE_URL}updatecompanydetails/${userDetails.companyData?._id}`;
+  const editProject_url = `${BASE_URL}updateprojectdetails/${projectDetails?._id}`;
 
-  const handleEdit = async () => {};
+  const handleEdit = async () => {
+    let assignEmployeeslist = [];
+    let assignManagersList = [];
+
+    let employeeArr = assignEmployeesDetails.assignEmployees.filter(
+      (employee) => {
+        return employee.assign === true;
+      }
+    );
+
+    for (let i = 0; i < employeeArr.length; i++) {
+      let obj = {
+        name: employeeArr[i].name,
+        email: employeeArr[i].email,
+        id: employeeArr[i].id,
+      };
+      assignEmployeeslist.push(obj);
+    }
+
+    let managerArr = assignEmployeesDetails.assignManagers.filter((manager) => {
+      return manager.assign === true;
+    });
+
+    for (let i = 0; i < managerArr.length; i++) {
+      let obj = {
+        name: managerArr[i].name,
+        email: managerArr[i].email,
+        id: managerArr[i].id,
+      };
+      assignManagersList.push(obj);
+    }
+
+    const data = {
+      name: editForm.name,
+      startDate: editForm.startDate,
+      proposeEndDate: editForm.proposeEndDate,
+      priority: dropdownValue === "Select Priority" ? "Medium" : dropdownValue,
+      managers: assignManagersList,
+      employees: assignEmployeeslist,
+      adminId: userDetails?.adminId ? userDetails?.adminId : userDetails?._id,
+    };
+
+    await axios
+      .put(editProject_url, data)
+      .then((res) => {
+        if (res.data.status) {
+          handleShow();
+          getProjects();
+          notify("Project edited successfully", "success");
+        }
+      })
+      .catch((err) => {
+        notify(err.response.data, "error");
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     setEditForm((prev) => ({

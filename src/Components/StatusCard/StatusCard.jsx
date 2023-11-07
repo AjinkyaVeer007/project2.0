@@ -5,7 +5,7 @@ import CardPattern from "../../Assets/SVG/cardpattern.svg";
 function ProjectStatusCard({ heading, icon, countData }) {
   return (
     <div className="col-lg-6 col-md-6 col-xl-6 col-12">
-      <div className="statusCard rounded-4 p-2 mx-3 mt-4 shadow">
+      <div className="statusCard rounded-4 p-2 mx-3 mt-4">
         <div
           className="card-pattern"
           style={{ backgroundImage: `url(${CardPattern})` }}

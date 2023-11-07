@@ -343,7 +343,7 @@ function CreateProject() {
               id="dropdown-basic"
               className="text-white m-2 p-3"
             >
-              Assign Employees
+              *Assign Employees
             </Dropdown.Toggle>
 
             <Dropdown.Menu>

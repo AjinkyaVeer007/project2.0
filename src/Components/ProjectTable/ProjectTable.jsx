@@ -124,7 +124,11 @@ function ProjectTable({ getProjects }) {
           </tbody>
         </Table>
       </div>
-      <EditProjectModal show={show} handleShow={handleShow} />
+      <EditProjectModal
+        show={show}
+        handleShow={handleShow}
+        getProjects={getProjects}
+      />
     </>
   );
 }

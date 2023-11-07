@@ -45,7 +45,9 @@ function ProjectCard({ data }) {
             <div className="text-white">{data.employees.length}</div>
           </div>
         </div>
-        <CircularProgressBar progreePercentage={data.progress} />
+        <div className="position-absolute end-0 bottom-0 m-2">
+          <CircularProgressBar progreePercentage={data.progress} />
+        </div>
       </div>
     </div>
   );

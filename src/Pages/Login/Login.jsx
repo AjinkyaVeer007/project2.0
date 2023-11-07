@@ -9,8 +9,10 @@ import { useDispatch } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
 import { userData } from "../../Store/userSlice";
 import { companyData } from "../../Store/companySlice";
+import { employeeData } from "../../Store/employeeSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { projectData } from "../../Store/projectSlice";
 
 function Login() {
   const navigate = useNavigate();
@@ -45,6 +47,13 @@ function Login() {
           if (res.data.status) {
             dispatch(userData(res.data.user));
             dispatch(companyData(res.data.companyData));
+            dispatch(projectData(res.data.projects));
+            dispatch(
+              employeeData({
+                managers: res.data.managers,
+                employees: res.data.employees,
+              })
+            );
             dispatch(
               activeData({
                 name: "sidebarActiveItem",
