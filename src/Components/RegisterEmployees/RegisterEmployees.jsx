@@ -91,7 +91,7 @@ function RegisterEmployees() {
         }
       })
       .catch(() => {
-        dispatch(userData([]));
+        dispatch(employeeData([]));
       });
   };
 

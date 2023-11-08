@@ -51,7 +51,7 @@ function AdminDashboard() {
   };
 
   return (
-    <div className="d-flex flex-lg-row flex-column position-relative">
+    <div className="main-container d-flex flex-lg-row flex-column position-relative">
       <div
         className={`sidebarLeft d-lg-block d-none ${
           leftSidebarActive ? "border-end" : ""
@@ -72,7 +72,7 @@ function AdminDashboard() {
           {topSidebarActive && <Sidebar />}
         </div>
       )}
-      <div className="herosection position-relative">
+      <div className="herosection customscrollbar position-relative">
         <AiOutlineMenu
           onClick={sidebarToggleFromLeft}
           size={"30px"}

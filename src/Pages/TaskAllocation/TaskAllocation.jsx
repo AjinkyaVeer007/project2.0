@@ -1,22 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import "./TaskAllocation.css";
-import TaskModal from "../../Components/Modals/TaskModal/TaskModal";
+import TaskCard from "../../Components/TaskCard/TaskCard";
 
 function TaskAllocation() {
-  const [show, setShow] = useState(false);
-
-  const handleShow = () => setShow(!show);
   return (
-    <div className="row">
-      <div className="col-12 text-center">
-        <button onClick={handleShow} className="custom-btn rounded-2 mt-4">
-          <div className="d-flex gap-2 align-items-center">
-            <div className="bi bi-plus-circle"></div>
-            <div>Allocate Task</div>
+    <div className="row mt-5">
+        <div className="container">
+          <div className="row">
+            <TaskCard />
+            <TaskCard />
+            <TaskCard />
+            <TaskCard />
+            <TaskCard />
+            <TaskCard />
+            <TaskCard />
           </div>
-        </button>
-      </div>
-      <TaskModal show={show} handleShow={handleShow} />
+        </div>
     </div>
   );
 }

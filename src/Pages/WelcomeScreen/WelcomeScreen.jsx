@@ -52,22 +52,32 @@ function WelcomeScreen() {
           icon={"bi bi-activity"}
           countData={projectStatusArr}
         />
-        <StatusCard
-          heading={"Registered Employees"}
-          icon={"bi bi-people-fill"}
-          countData={employeeCardData}
-        />
+        {employeeDetails.employees && (
+          <StatusCard
+            heading={"Registered Employees"}
+            icon={"bi bi-people-fill"}
+            countData={employeeCardData}
+          />
+        )}
       </div>
-      <hr />
-      <h5 className="text-center fw-medium">Projects</h5>
-      <div className="container">
-        <div className="row my-2">
-          {projectDetails.length &&
-            projectDetails.map((project) => {
-              return <ProjectProgressCard key={project?._id} data={project} />;
-            })}
-        </div>
-      </div>
+      {projectDetails.length ? (
+        <>
+          <hr />
+          <h5 className="text-center fw-medium">Projects</h5>
+          <div className="container">
+            <div className="row my-2">
+              {projectDetails.length &&
+                projectDetails.map((project) => {
+                  return (
+                    <ProjectProgressCard key={project?._id} data={project} />
+                  );
+                })}
+            </div>
+          </div>
+        </>
+      ) : (
+        ""
+      )}
     </>
   );
 }

@@ -5,15 +5,11 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { activeData } from "../../Store/activeSlice";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { userData } from "../../Store/userSlice";
 
 function Register() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [registerForm, setRegisterForm] = useState({
     name: "",
     email: "",
@@ -50,24 +46,12 @@ function Register() {
         .post(register_Url, data)
         .then((res) => {
           if (res.data.status) {
-            dispatch(
-              userData({
-                name: "userData",
-                value: res.data.user,
-              })
-            );
-            dispatch(
-              activeData({
-                name: "sidebarActiveItem",
-                value: "#$dashboard",
-              })
-            );
             setRegisterForm({
               name: "",
               email: "",
               password: "",
             });
-            navigate("/auth/admin/dashboard/welcome");
+            navigate("/");
           }
         })
         .catch((err) => {

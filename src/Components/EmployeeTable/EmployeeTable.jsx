@@ -11,8 +11,7 @@ function EmployeeTable({ handleEmployeeList }) {
   // for notification
   const notify = (notification, type) =>
     toast(notification, { autoClose: 1000, theme: "colored", type: type });
-
-  const userDetails = useSelector((state) => state.userData);
+    
   const employeesDetails = useSelector((state) => state.employeesData);
 
   const [show, setShow] = useState(false);

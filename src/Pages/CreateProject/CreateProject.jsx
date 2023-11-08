@@ -281,60 +281,67 @@ function CreateProject() {
             >
               Assign Managers
             </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              {assignEmployeesDetails?.assignManagers?.length &&
-                assignEmployeesDetails?.assignManagers.map((manager) => {
-                  return (
-                    <Fragment key={manager.id}>
-                      {!manager.assign && (
-                        <Dropdown.Item
-                          onClick={() => {
-                            dispatch(
-                              handleAssign({
-                                type: "assignManagers",
-                                id: manager.id,
-                              })
-                            );
-                          }}
-                          key={manager.id}
-                        >
-                          {manager.name}
-                        </Dropdown.Item>
-                      )}
-                    </Fragment>
-                  );
-                })}
-            </Dropdown.Menu>
-          </Dropdown>
-          <div className="row m-2">
-            {assignEmployeesDetails?.assignManagers?.length &&
-              assignEmployeesDetails.assignManagers.map((manager) => {
-                return (
-                  <Fragment key={manager.id}>
-                    {manager.assign && (
-                      <>
-                        <div className="col-10 p-1">{manager.name}</div>
-                        <div className="col-2 p-1 text-danger">
-                          <MdDelete
-                            size={"20px"}
+            {assignEmployeesDetails.assignManagers.length ? (
+              <Dropdown.Menu>
+                {assignEmployeesDetails?.assignManagers?.length &&
+                  assignEmployeesDetails?.assignManagers.map((manager) => {
+                    return (
+                      <Fragment key={manager.id}>
+                        {!manager.assign && (
+                          <Dropdown.Item
                             onClick={() => {
                               dispatch(
-                                handleRemoveAssign({
+                                handleAssign({
                                   type: "assignManagers",
                                   id: manager.id,
                                 })
                               );
                             }}
-                          />
-                        </div>
-                        <hr />
-                      </>
-                    )}
-                  </Fragment>
-                );
-              })}
-          </div>
+                            key={manager.id}
+                          >
+                            {manager.name}
+                          </Dropdown.Item>
+                        )}
+                      </Fragment>
+                    );
+                  })}
+              </Dropdown.Menu>
+            ) : (
+              ""
+            )}
+          </Dropdown>
+          {assignEmployeesDetails.assignManagers.length ? (
+            <div className="row m-2">
+              {assignEmployeesDetails?.assignManagers?.length &&
+                assignEmployeesDetails.assignManagers.map((manager) => {
+                  return (
+                    <Fragment key={manager.id}>
+                      {manager.assign && (
+                        <>
+                          <div className="col-10 p-1">{manager.name}</div>
+                          <div className="col-2 p-1 text-danger">
+                            <MdDelete
+                              size={"20px"}
+                              onClick={() => {
+                                dispatch(
+                                  handleRemoveAssign({
+                                    type: "assignManagers",
+                                    id: manager.id,
+                                  })
+                                );
+                              }}
+                            />
+                          </div>
+                          <hr />
+                        </>
+                      )}
+                    </Fragment>
+                  );
+                })}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="col-lg-6 col-12 col-md-6">
           <Dropdown>
@@ -346,59 +353,67 @@ function CreateProject() {
               *Assign Employees
             </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              {assignEmployeesDetails?.assignEmployees?.length &&
-                assignEmployeesDetails?.assignEmployees.map((employee) => {
-                  return (
-                    <Fragment key={employee.id}>
-                      {!employee.assign && (
-                        <Dropdown.Item
-                          onClick={() => {
-                            dispatch(
-                              handleAssign({
-                                type: "assignEmployees",
-                                id: employee.id,
-                              })
-                            );
-                          }}
-                          key={employee.id}
-                        >
-                          {employee.name}
-                        </Dropdown.Item>
-                      )}
-                    </Fragment>
-                  );
-                })}
-            </Dropdown.Menu>
-          </Dropdown>
-          <div className="row m-2">
-            {assignEmployeesDetails?.assignEmployees?.length &&
-              assignEmployeesDetails.assignEmployees.map((employee) => {
-                return (
-                  <Fragment key={employee.id}>
-                    {employee.assign && (
-                      <>
-                        <div className="col-10 p-1">{employee.name}</div>
-                        <div className="col-2 p-1 text-danger">
-                          <MdDelete
-                            size={"20px"}
+            {assignEmployeesDetails.assignEmployees.length ? (
+              <Dropdown.Menu>
+                {assignEmployeesDetails?.assignEmployees?.length &&
+                  assignEmployeesDetails?.assignEmployees.map((employee) => {
+                    return (
+                      <Fragment key={employee.id}>
+                        {!employee.assign && (
+                          <Dropdown.Item
                             onClick={() => {
                               dispatch(
-                                handleRemoveAssign({
+                                handleAssign({
                                   type: "assignEmployees",
                                   id: employee.id,
                                 })
                               );
                             }}
-                          />
-                        </div>
-                        <hr />
-                      </>
-                    )}
-                  </Fragment>
-                );
-              })}
-          </div>
+                            key={employee.id}
+                          >
+                            {employee.name}
+                          </Dropdown.Item>
+                        )}
+                      </Fragment>
+                    );
+                  })}
+              </Dropdown.Menu>
+            ) : (
+              ""
+            )}
+          </Dropdown>
+          {assignEmployeesDetails.assignEmployees.length ? (
+            <div className="row m-2">
+              {assignEmployeesDetails?.assignEmployees?.length &&
+                assignEmployeesDetails.assignEmployees.map((employee) => {
+                  return (
+                    <Fragment key={employee.id}>
+                      {employee.assign && (
+                        <>
+                          <div className="col-10 p-1">{employee.name}</div>
+                          <div className="col-2 p-1 text-danger">
+                            <MdDelete
+                              size={"20px"}
+                              onClick={() => {
+                                dispatch(
+                                  handleRemoveAssign({
+                                    type: "assignEmployees",
+                                    id: employee.id,
+                                  })
+                                );
+                              }}
+                            />
+                          </div>
+                          <hr />
+                        </>
+                      )}
+                    </Fragment>
+                  );
+                })}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="text-center mb-4">
           <button
