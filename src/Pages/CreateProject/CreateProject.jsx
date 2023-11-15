@@ -83,10 +83,8 @@ function CreateProject() {
 
   const getProjects = async () => {
     const data = {
-      adminId:
-        userDetails?.userType === "admin"
-          ? userDetails?._id
-          : userDetails?.adminId,
+      userId: userDetails._id,
+      userType: userDetails.userType,
     };
 
     await axios
@@ -117,12 +115,7 @@ function CreateProject() {
     );
 
     for (let i = 0; i < employeeArr.length; i++) {
-      let obj = {
-        name: employeeArr[i].name,
-        email: employeeArr[i].email,
-        id: employeeArr[i].id,
-      };
-      assignEmployeeslist.push(obj);
+      assignEmployeeslist.push(employeeArr[i].id);
     }
 
     let managerArr = assignEmployeesDetails.assignManagers.filter((manager) => {
@@ -130,12 +123,7 @@ function CreateProject() {
     });
 
     for (let i = 0; i < managerArr.length; i++) {
-      let obj = {
-        name: managerArr[i].name,
-        email: managerArr[i].email,
-        id: managerArr[i].id,
-      };
-      assignManagersList.push(obj);
+      assignManagersList.push(managerArr[i].id);
     }
 
     const data = {
@@ -143,8 +131,8 @@ function CreateProject() {
       startDate: projectForm.startDate,
       proposeEndDate: projectForm.proposeEndDate,
       priority: dropdownValue === "Select Priority" ? "Medium" : dropdownValue,
-      managers: assignManagersList,
-      employees: assignEmployeeslist,
+      managersId: assignManagersList,
+      employeesId: assignEmployeeslist,
       adminId: userDetails?.adminId ? userDetails?.adminId : userDetails?._id,
     };
 

@@ -39,7 +39,7 @@ function RegisterCompany() {
         name: companyForm.name,
         url: companyForm.url.length ? companyForm.url : null,
         adminId:
-          userDetails.userType === "admin"
+          userDetails.userType === "Admin"
             ? userDetails?._id
             : userDetails?.adminId,
       };
@@ -72,7 +72,7 @@ function RegisterCompany() {
   const handleCompanyDetails = async () => {
     const data = {
       adminId:
-        userDetails?.userType === "admin"
+        userDetails?.userType === "Admin"
           ? userDetails?._id
           : userDetails?.adminId,
     };

@@ -23,10 +23,8 @@ function Projects() {
 
   const getProjects = async () => {
     const data = {
-      adminId:
-        userDetails?.userType === "admin"
-          ? userDetails?._id
-          : userDetails?.adminId,
+      userId: userDetails._id,
+      userType: userDetails.userType,
     };
 
     await axios

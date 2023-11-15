@@ -78,20 +78,21 @@ function EditProjectModal({ handleShow, show, getProjects }) {
 
   const handleSelectedEmployees = () => {
     handleEmployeeList();
-    for (let i = 0; i < projectDetails?.managers?.length; i++) {
-      dispatch(
-        handleAssign({
-          type: "assignManagers",
-          id: projectDetails?.managers[i].id,
-        })
-      );
+    if (projectDetails?.managers.length) {
+      for (let i = 0; i < projectDetails.managers.length; i++) {
+        dispatch(
+          handleAssign({
+            type: "assignManagers",
+            id: projectDetails.managers[i]._id,
+          })
+        );
+      }
     }
-
     for (let i = 0; i < projectDetails?.employees?.length; i++) {
       dispatch(
         handleAssign({
           type: "assignEmployees",
-          id: projectDetails?.employees[i].id,
+          id: projectDetails?.employees[i]._id,
         })
       );
     }
@@ -112,12 +113,7 @@ function EditProjectModal({ handleShow, show, getProjects }) {
     );
 
     for (let i = 0; i < employeeArr.length; i++) {
-      let obj = {
-        name: employeeArr[i].name,
-        email: employeeArr[i].email,
-        id: employeeArr[i].id,
-      };
-      assignEmployeeslist.push(obj);
+      assignEmployeeslist.push(employeeArr[i].id);
     }
 
     let managerArr = assignEmployeesDetails.assignManagers.filter((manager) => {
@@ -125,12 +121,7 @@ function EditProjectModal({ handleShow, show, getProjects }) {
     });
 
     for (let i = 0; i < managerArr.length; i++) {
-      let obj = {
-        name: managerArr[i].name,
-        email: managerArr[i].email,
-        id: managerArr[i].id,
-      };
-      assignManagersList.push(obj);
+      assignManagersList.push(managerArr[i].id);
     }
 
     const data = {
@@ -138,8 +129,8 @@ function EditProjectModal({ handleShow, show, getProjects }) {
       startDate: editForm.startDate,
       proposeEndDate: editForm.proposeEndDate,
       priority: dropdownValue === "Select Priority" ? "Medium" : dropdownValue,
-      managers: assignManagersList,
-      employees: assignEmployeeslist,
+      managersId: assignManagersList,
+      employeesId: assignEmployeeslist,
       adminId: userDetails?.adminId ? userDetails?.adminId : userDetails?._id,
     };
 

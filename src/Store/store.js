@@ -17,6 +17,7 @@ import employeeSlice from "./employeeSlice";
 import projectSlice from "./projectSlice";
 import assignEmployees from "./assignEmployeesSlice";
 import projectModalSlice from "./projectModalSlice";
+import activeProject from "./activeProject";
 
 const persistConfig = {
   key: "root",
@@ -24,13 +25,14 @@ const persistConfig = {
 };
 
 const reducer = combineReducers({
-    activeItemData : activeSlice,
-    userData: userSlice,
-    companyData: companySlice,
-    employeesData: employeeSlice,
-    projectsData:  projectSlice,
-    assignEmployeesData : assignEmployees,
-    projectModalData : projectModalSlice
+  activeItemData: activeSlice,
+  userData: userSlice,
+  companyData: companySlice,
+  employeesData: employeeSlice,
+  projectsData: projectSlice,
+  assignEmployeesData: assignEmployees,
+  projectModalData: projectModalSlice,
+  activeProjectData: activeProject,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

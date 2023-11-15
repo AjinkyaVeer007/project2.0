@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Sidebar.css";
 import { useDispatch, useSelector } from "react-redux";
 import { activeData } from "../../Store/activeSlice";
@@ -16,10 +16,11 @@ function Sidebar({ setShowSidebarFromTop }) {
   // get data from store
   const activeItemDetails = useSelector((state) => state.activeItemData);
   const companyDetails = useSelector((state) => state.companyData);
+  const userDetails = useSelector((state) => state.userData);
 
-  const sidebarArr = [
+  const sidebarAdmin = [
     {
-      id: "#$dashboard",
+      id: "#$dashboardAdmin",
       name: "Dashboard",
       icon: "bi bi-house-door-fill",
     },
@@ -45,6 +46,27 @@ function Sidebar({ setShowSidebarFromTop }) {
     },
   ];
 
+  const sidebarEmployee = [
+    {
+      id: "#$dashboardEmployee",
+      name: "Dashboard",
+      icon: "bi bi-house-door-fill",
+    },
+    {
+      id: "#$logout",
+      name: "Logout",
+      icon: "bi bi-box-arrow-left",
+    },
+  ];
+
+  const [sidebarContent, setSidebarContent] = useState([]);
+
+  const handleSidebarContent = () => {
+    userDetails.userType === "Employee"
+      ? setSidebarContent(sidebarEmployee)
+      : setSidebarContent(sidebarAdmin);
+  };
+
   const handleAllProjects = () => {
     navigate("/auth/admin/dashboard/projects");
   };
@@ -63,20 +85,23 @@ function Sidebar({ setShowSidebarFromTop }) {
         value: false,
       })
     );
-    switch (item.name) {
-      case "Dashboard":
-        navigate("/auth/admin/dashboard/welcome");
+    switch (item.id) {
+      case "#$dashboardAdmin":
+        navigate("/auth/admin/dashboard/admin/welcome");
         break;
-      case "Create Company":
+      case "#$dashboardEmployee":
+        navigate("/auth/admin/dashboard/employee/welcome");
+        break;
+      case "#$createcompany":
         navigate("/auth/admin/dashboard/createcompany");
         break;
-      case "All Projects":
+      case "#$allproject":
         handleAllProjects();
         break;
-      case "Create Project":
+      case "#$createproject":
         navigate("/auth/admin/dashboard/createproject");
         break;
-      case "Logout":
+      case "#$logout":
         handleLogout();
         break;
       default:
@@ -126,6 +151,10 @@ function Sidebar({ setShowSidebarFromTop }) {
     navigate("/auth/admin/dashboard/welcome");
   };
 
+  useEffect(() => {
+    handleSidebarContent();
+  }, []);
+
   return (
     <div>
       <div
@@ -141,8 +170,8 @@ function Sidebar({ setShowSidebarFromTop }) {
       </div>
       <hr />
       <div className="mt-3">
-        {sidebarArr &&
-          sidebarArr.map((item) => (
+        {sidebarContent &&
+          sidebarContent.map((item) => (
             <li
               key={item.id}
               className={`${

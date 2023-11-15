@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 
 function Company() {
   const companyDetails = useSelector((state) => state.companyData);
+  const userDetails = useSelector((state) => state.userData);
+
   return (
     <div className="row mt-5 mx-2">
-      <RegisterCompany />
+      {userDetails.userType === "Admin" && <RegisterCompany />}
       {companyDetails && <RegisterEmployees />}
     </div>
   );

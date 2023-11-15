@@ -39,7 +39,7 @@ function Register() {
         name: registerForm.name,
         email: registerForm.email,
         password: registerForm.password,
-        userType: "admin",
+        userType: "Admin",
         isPasswordChange: true,
       };
       await axios

@@ -11,7 +11,7 @@ function EmployeeTable({ handleEmployeeList }) {
   // for notification
   const notify = (notification, type) =>
     toast(notification, { autoClose: 1000, theme: "colored", type: type });
-    
+
   const employeesDetails = useSelector((state) => state.employeesData);
 
   const [show, setShow] = useState(false);
@@ -66,64 +66,66 @@ function EmployeeTable({ handleEmployeeList }) {
           </tr>
         </thead>
         <tbody>
-          {employeesDetails?.managers.length &&
-            employeesDetails?.managers.map((item, index) => (
-              <tr key={item._id}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{!item.isPasswordChange && item.defaultPassword}</td>
-                <td>{item.userType}</td>
-                <td>
-                  <div className="d-flex align-items-center gap-3">
-                    <MdModeEditOutline
-                      size={"20px"}
-                      color="#44ce42"
-                      onClick={() => {
-                        handleShow(item._id, item.userType);
-                      }}
-                    />
-                    <MdDelete
-                      onClick={() => {
-                        handleDeleteEmployee(item._id);
-                      }}
-                      size={"20px"}
-                      color="tomato"
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
+          {employeesDetails?.managers?.length
+            ? employeesDetails?.managers.map((item, index) => (
+                <tr key={item._id}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{!item.isPasswordChange && item.defaultPassword}</td>
+                  <td>{item.userType}</td>
+                  <td>
+                    <div className="d-flex align-items-center gap-3">
+                      <MdModeEditOutline
+                        size={"20px"}
+                        color="#44ce42"
+                        onClick={() => {
+                          handleShow(item._id, item.userType);
+                        }}
+                      />
+                      <MdDelete
+                        onClick={() => {
+                          handleDeleteEmployee(item._id);
+                        }}
+                        size={"20px"}
+                        color="tomato"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            : ""}
         </tbody>
         <tbody>
-          {employeesDetails?.employees.length &&
-            employeesDetails?.employees.map((item, index) => (
-              <tr key={item._id}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>{item.email}</td>
-                <td>{!item.isPasswordChange && item.defaultPassword}</td>
-                <td>{item.userType}</td>
-                <td>
-                  <div className="d-flex align-items-center gap-3">
-                    <MdModeEditOutline
-                      size={"20px"}
-                      color="#44ce42"
-                      onClick={() => {
-                        handleShow(item._id, item.userType);
-                      }}
-                    />
-                    <MdDelete
-                      onClick={() => {
-                        handleDeleteEmployee(item._id);
-                      }}
-                      size={"20px"}
-                      color="tomato"
-                    />
-                  </div>
-                </td>
-              </tr>
-            ))}
+          {employeesDetails?.employees?.length
+            ? employeesDetails?.employees.map((item, index) => (
+                <tr key={item._id}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td>{item.email}</td>
+                  <td>{!item.isPasswordChange && item.defaultPassword}</td>
+                  <td>{item.userType}</td>
+                  <td>
+                    <div className="d-flex align-items-center gap-3">
+                      <MdModeEditOutline
+                        size={"20px"}
+                        color="#44ce42"
+                        onClick={() => {
+                          handleShow(item._id, item.userType);
+                        }}
+                      />
+                      <MdDelete
+                        onClick={() => {
+                          handleDeleteEmployee(item._id);
+                        }}
+                        size={"20px"}
+                        color="tomato"
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            : ""}
         </tbody>
       </Table>
       <EditEmployeeModal

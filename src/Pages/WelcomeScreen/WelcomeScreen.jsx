@@ -7,6 +7,7 @@ import ProjectProgressCard from "../../Components/ProjectDetailsCard/ProjectProg
 function WelcomeScreen() {
   const employeeDetails = useSelector((state) => state.employeesData);
   const projectDetails = useSelector((state) => state.projectsData);
+  const userDetails = useSelector((state) => state.userData);
 
   const [employeeCardData, setEmployeeCardData] = useState([]);
 
@@ -46,20 +47,22 @@ function WelcomeScreen() {
   return (
     <>
       <Greeting />
-      <div className="row">
-        <StatusCard
-          heading={"Project Status"}
-          icon={"bi bi-activity"}
-          countData={projectStatusArr}
-        />
-        {employeeDetails.employees && (
+      {userDetails.userType === "Admin" && (
+        <div className="row">
           <StatusCard
-            heading={"Registered Employees"}
-            icon={"bi bi-people-fill"}
-            countData={employeeCardData}
+            heading={"Project Status"}
+            icon={"bi bi-activity"}
+            countData={projectStatusArr}
           />
-        )}
-      </div>
+          {employeeDetails.employees && (
+            <StatusCard
+              heading={"Registered Employees"}
+              icon={"bi bi-people-fill"}
+              countData={employeeCardData}
+            />
+          )}
+        </div>
+      )}
       {projectDetails.length ? (
         <>
           <hr />

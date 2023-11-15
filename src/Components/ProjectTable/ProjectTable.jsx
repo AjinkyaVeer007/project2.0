@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import EditProjectModal from "../Modals/EditProjectModal/EditProjectModal";
 import { projectModalData } from "../../Store/projectModalSlice";
+import { activeProjectId } from "../../Store/activeProject";
 
 function ProjectTable({ getProjects }) {
   const navigate = useNavigate();
@@ -46,6 +47,11 @@ function ProjectTable({ getProjects }) {
       .catch((err) => {
         notify(err.response.data, "error");
       });
+  };
+
+  const handleTaskAllocation = (projectId) => {
+    dispatch(activeProjectId(projectId));
+    navigate("/auth/admin/dashboard/project/admin/taskallocation");
   };
 
   return (
@@ -97,9 +103,7 @@ function ProjectTable({ getProjects }) {
                       size={"20px"}
                       color="#44ce42"
                       onClick={() => {
-                        navigate(
-                          "/auth/admin/dashboard/project/taskallocation"
-                        );
+                        handleTaskAllocation(item._id);
                       }}
                     />
                   </td>

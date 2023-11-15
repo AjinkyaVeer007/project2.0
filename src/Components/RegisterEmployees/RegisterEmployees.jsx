@@ -7,7 +7,6 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import EmployeeTable from "../EmployeeTable/EmployeeTable";
-import { userData } from "../../Store/userSlice";
 import { employeeData } from "../../Store/employeeSlice";
 
 function RegisterEmployees() {
@@ -78,7 +77,7 @@ function RegisterEmployees() {
   const handleEmployeeList = async () => {
     const data = {
       adminId:
-        userDetails?.userType === "admin"
+        userDetails?.userType === "Admin"
           ? userDetails?._id
           : userDetails?.adminId,
     };
@@ -87,6 +86,7 @@ function RegisterEmployees() {
       .post(getEmployees_url, data)
       .then((res) => {
         if (res.data.status) {
+          console.log(res.data.users);
           dispatch(employeeData(res.data.users));
         }
       })
@@ -187,7 +187,7 @@ function RegisterEmployees() {
           </button>
         </div>
       </div>
-      {employeesDetails?.employees?.length ? (
+      {employeesDetails ? (
         <div className="row mt-5">
           <EmployeeTable handleEmployeeList={handleEmployeeList} />
         </div>

@@ -54,17 +54,27 @@ function Login() {
                 employees: res.data.employees,
               })
             );
-            dispatch(
-              activeData({
-                name: "sidebarActiveItem",
-                value: "#$dashboard",
-              })
-            );
             setLoginForm({
               email: "",
               password: "",
             });
-            navigate("/auth/admin/dashboard/welcome");
+            if (res.data.user.userType === "Employee") {
+              dispatch(
+                activeData({
+                  name: "sidebarActiveItem",
+                  value: "#$dashboardEmployee",
+                })
+              );
+              navigate("/auth/admin/dashboard/employee/welcome");
+            } else {
+              dispatch(
+                activeData({
+                  name: "sidebarActiveItem",
+                  value: "#$dashboardAdmin",
+                })
+              );
+              navigate("/auth/admin/dashboard/admin/welcome");
+            }
           }
         })
         .catch((err) => {
