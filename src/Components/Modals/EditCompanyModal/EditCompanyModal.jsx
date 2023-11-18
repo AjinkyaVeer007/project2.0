@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import CustomButton from "../../Buttons/CustomButton";
+import { IoMdDoneAll } from "react-icons/io";
 
 function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
   // for notification
@@ -93,10 +95,13 @@ function EditCompanyModal({ handleShow, show, handleCompanyDetails }) {
             </FloatingLabel>
           </div>
         </div>
-        <div className="text-center mt-2">
-          <button className="custom-btn rounded-2" onClick={handleEdit}>
-            Update
-          </button>
+        <div className="d-flex justify-content-center mt-2">
+          <CustomButton
+            handleClick={handleEdit}
+            name={"Update"}
+            bgColor={"secondary-bgcolor"}
+            preIcon={<IoMdDoneAll size={"20px"} />}
+          />
         </div>
       </Modal.Body>
     </Modal>

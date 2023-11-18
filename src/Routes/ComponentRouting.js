@@ -1,29 +1,23 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import WelcomeScreen from "../Pages/WelcomeScreen/WelcomeScreen";
-import Projects from "../Pages/Projects/Projects";
-import Company from "../Pages/Company/Company";
-import CreateProject from "../Pages/CreateProject/CreateProject";
-import TaskAllocationAdmin from "../Pages/TaskAllocation/TaskAllocationAdmin";
+import AdminDashboard from "../Pages/AdminDashboard";
+import Company from "../Pages/Company";
+import CreateProject from "../Pages/CreateProject";
+import TaskAllocationAdmin from "../Pages/TaskAllocationAdmin";
 import EmployeeDashboard from "../Pages/EmployeeDashboard";
-import TaskAllocationEmployee from "../Pages/TaskAllocation/TaskAllocationEmployee";
+import TaskAllocationEmployee from "../Pages/TaskAllocationEmployee";
+import AllProjects from "../Pages/AllProjects";
+import ProjectDetails from "../Pages/ProjectDetails";
 
 function ComponentRouting() {
   return (
     <Routes>
-      <Route path="admin/welcome" element={<WelcomeScreen />} />
+      <Route path="admin/welcome" element={<AdminDashboard />} />
       <Route path="employee/welcome" element={<EmployeeDashboard />} />
-      <Route path="projects" element={<Projects />} />
+      <Route path="projects" element={<AllProjects />} />
       <Route path="createcompany" element={<Company />} />
       <Route path="createproject" element={<CreateProject />} />
-      <Route
-        path="project/admin/taskallocation"
-        element={<TaskAllocationAdmin />}
-      />
-      <Route
-        path="project/employee/taskallocation"
-        element={<TaskAllocationEmployee />}
-      />
+      <Route path="project/projectdetails" element={<ProjectDetails />} />
     </Routes>
   );
 }

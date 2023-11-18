@@ -1,12 +1,13 @@
 import Modal from "react-bootstrap/Modal";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Dropdown from "react-bootstrap/Dropdown";
 import { MdInfo } from "react-icons/md";
+import CustomButton from "../../Buttons/CustomButton";
+import { IoMdDoneAll } from "react-icons/io";
 
 function EditEmployeeModal({ handleShow, show, data, handleEmployeeList }) {
   // for notification
@@ -163,10 +164,13 @@ function EditEmployeeModal({ handleShow, show, data, handleEmployeeList }) {
             </FloatingLabel>
           </div>
         </div>
-        <div className="text-center mt-2">
-          <button className="custom-btn rounded-2" onClick={handleEdit}>
-            Update
-          </button>
+        <div className="d-flex justify-content-center mt-2">
+          <CustomButton
+            name={"Update"}
+            handleClick={handleEdit}
+            bgColor={"secondary-bgcolor"}
+            preIcon={<IoMdDoneAll size={"20px"} />}
+          />
         </div>
       </Modal.Body>
     </Modal>

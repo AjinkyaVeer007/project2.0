@@ -7,7 +7,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'Poppins', sans-serif !important;
-  transition: 0.6s ease-in-out;
 }
 
 svg, .list-group-item, .cursor-pointer{
@@ -31,10 +30,194 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .customscrollbar::-webkit-scrollbar-thumb {
-  box-shadow: inset 0 0 6px #9376E0 !important;
+  box-shadow: inset 0 0 6px #7071E8 !important;
 }
 
 .customscrollbar {
   scrollbar-width: thin !important;
-  scrollbar-color: #9376E0 #e0e0e0 !important;
+  scrollbar-color: #7071E8 #e0e0e0 !important;
+}
+
+.main-container{
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.sidebarLeft{
+  height: 100vh;
+  transition: width 0.2s ease-in-out;
+}
+
+.herosection{
+  height: 100vh;
+  transition: width 0.2s ease-in-out;
+  width: 100%;
+  overflow: auto;
+}
+
+.sidebarIcon{
+  color: #727272;
+}
+
+.sidebarIcon-active {
+  transform: rotate(180deg);
+}
+
+.sidebarItem{
+  font-size: 14px;
+  font-weight: 400;
+  animation: moveUp 0.5s ease;
+}
+
+@keyframes moveUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0%;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 100%;
+  }
+}
+
+th {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+
+td{
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+
+.nav-link{
+  color: #fff !important;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem #c8b5fc !important;
+  border-color: #d8ccfc;
+}
+
+.projectCard{
+  height: 150px;
+  background: #56ab2f;
+  background: -webkit-linear-gradient(to right, #a8e063, #56ab2f);
+  background: linear-gradient(to right, #a8e063, #56ab2f);
+  cursor: pointer;
+}
+
+.getCentered{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.projectText{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  transition:0.3s ease-in-out;
+}
+
+.projectDetailsText{
+  font-size: 11px;
+  display: none;
+  animation: moveRight 0.3s ease-in-out;
+}
+
+@keyframes moveRight{
+  from {
+    opacity: 0%;
+    transform: translateX(-5px);
+  }
+  to{
+    opacity: 100%;
+    transform: translateX(0px);
+  }
+}
+
+.projectCard:hover .projectText{
+  top: 5%;
+  left: 5%;
+  transform: none;
+  text-align: start !important;
+}
+
+.projectCard:hover .projectDetailsText{
+  display: block;
+}
+
+.custom-gradient{
+  height: 150px;
+  opacity: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.projectCard:hover .custom-gradient {
+  opacity: 1; 
+}
+
+.accordion-button {
+  color: #fff !important;
+  background-color: #F67280 !important;
+  box-shadow: none !important
+}
+
+.accordion-button:not(.collapsed) {
+  color: #fff !important;
+  background-color: #F67280 !important;
+  box-shadow: none !important
+}
+
+.taskInputBox{
+  border: none !important;
+  outline: none !important;
+}
+
+.taskInputBox:focus {
+  box-shadow: none !important;
+}
+
+.taskCard{
+  height: 300px !important;
+}
+
+.taskContainer{
+  height: 160px !important;
+  overflow: auto;
+}
+
+.taskCircle{
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+}
+
+.taskCompleted{
+  background-color: #44ce42;
+}
+
+.taskOngoing{
+  background-color: tomato;
+}
+
+.taskName{
+  color: #5c5c5c !important;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.taskUser{
+  color: #424242 !important;
+}
+
+.taskEmail{
+  color: #636363 !important;
+  font-size: 12px !important;
 }

@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    sidebarActiveItem: null,
-    leftSidebarActive: true,
-    topSidebarActive: false
+  sidebarActiveItem: null,
+  leftSidebarActive: true,
 };
 
 const activeSlice = createSlice({
@@ -11,7 +10,7 @@ const activeSlice = createSlice({
   initialState,
   reducers: {
     activeData: (state, action) => {
-      state[action.payload.name] = action.payload.value
+      state[action.payload.name] = action.payload.value;
     },
   },
 });

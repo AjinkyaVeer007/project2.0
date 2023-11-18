@@ -65,7 +65,7 @@ function Login() {
                   value: "#$dashboardEmployee",
                 })
               );
-              navigate("/auth/admin/dashboard/employee/welcome");
+              navigate("/auth/dashboard/employee/welcome");
             } else {
               dispatch(
                 activeData({
@@ -73,7 +73,7 @@ function Login() {
                   value: "#$dashboardAdmin",
                 })
               );
-              navigate("/auth/admin/dashboard/admin/welcome");
+              navigate("/auth/dashboard/admin/welcome");
             }
           }
         })

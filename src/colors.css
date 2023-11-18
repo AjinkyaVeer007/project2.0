@@ -1,0 +1,39 @@
+.background-color {
+    background-color: #7071E8 !important; /* Apricot */
+}
+
+.primary-color {
+    color: #8D99AE !important; /* Slate Gray */
+}
+
+.primary-bgcolor {
+    background-color: #8D99AE !important; /* Slate Gray */
+}
+
+.secondary-color {
+    color: #F67280 !important; /* Pastel Red */
+}
+
+.secondary-bgcolor {
+    background-color: #F67280 !important; /* Pastel Red */
+}
+
+.complementary-color {
+    color: #C06C84 !important; /* Rosy Pink */
+}
+
+.complementary-bgcolor {
+    background-color: #C06C84 !important; /* Rosy Pink */
+}
+
+.tableHeadingBg-color {
+    background-color: #294c60 !important; /* Vintage Violet */
+}
+
+.primary-text-color {
+    color: #2C2E3E !important; /* Dark Blue Gray */
+}
+
+.secondary-text-color {
+    color: #7B6D8D !important; /* Lavender Gray */
+}
