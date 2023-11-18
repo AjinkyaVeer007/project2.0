@@ -68,7 +68,11 @@ function ProjectCard({ data }) {
           </div>
         </div>
         <div className="p-2">
-          <ProgressBar variant="danger" now={progress} label={`${progress}%`} />
+          <ProgressBar
+            variant="success"
+            now={progress}
+            label={`${progress}%`}
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { BASE_URL } from "../Utils/constant";
 import { useSelector } from "react-redux";
 
 function ProjectInfo() {

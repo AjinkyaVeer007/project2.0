@@ -3,11 +3,14 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import CustomButton from "./Buttons/CustomButton";
 import { MdDataSaverOff } from "react-icons/md";
+import moment from "moment";
 
 function TaskAssignCardAdmin({ data, getTasks }) {
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const { id, name, email, taskList } = data;
+
+  console.log(id);
 
   const userDetails = useSelector((state) => state.userData);
   const projectId = useSelector((state) => state.activeProjectData);
@@ -29,7 +32,6 @@ function TaskAssignCardAdmin({ data, getTasks }) {
           ? userDetails._id
           : userDetails.adminId,
       projectId: projectId.projectId,
-      userType: userDetails.userType,
       taskList: [
         {
           task: task,
@@ -50,8 +52,8 @@ function TaskAssignCardAdmin({ data, getTasks }) {
       });
   };
   return (
-    <div className="col-12 col-lg-4 col-md-6">
-      <div className="rounded border taskCard p-3 m-2 d-flex flex-column">
+    <div className="col-12 col-lg-6 col-md-6">
+      <div className="rounded border border-secondary taskCard p-3 m-2 d-flex flex-column">
         <div>
           <h6 className="taskUser">{name}</h6>
           <h6 className="taskEmail">{email}</h6>
@@ -61,7 +63,12 @@ function TaskAssignCardAdmin({ data, getTasks }) {
               {taskList.length ? (
                 taskList[0].taskList.map((task) => {
                   return (
-                    <Fragment key={task._id}>
+                    <div
+                      className={`${
+                        task.isCompleted ? "border-success" : "border-danger"
+                      } row d-flex align-items-center border rounded mb-2 p-2`}
+                      key={task._id}
+                    >
                       <div className="col-1 cursor-pointer">
                         <div
                           className={`taskCircle ${
@@ -69,7 +76,7 @@ function TaskAssignCardAdmin({ data, getTasks }) {
                           }`}
                         ></div>
                       </div>
-                      <div className="col-11 cursor-pointer">
+                      <div className="col-9 cursor-pointer">
                         <a
                           href={task.commit}
                           target="_blank"
@@ -87,7 +94,10 @@ function TaskAssignCardAdmin({ data, getTasks }) {
                           )}
                         </a>
                       </div>
-                    </Fragment>
+                      <div className="col-2 taskDate">
+                        {moment(task.timestamp).format("Do MMM")}
+                      </div>
+                    </div>
                   );
                 })
               ) : (
@@ -104,7 +114,7 @@ function TaskAssignCardAdmin({ data, getTasks }) {
           </div>
         </div>
         <div className="mt-auto">
-          <div className="rounded border p-1 d-flex align-items-center gap-2">
+          <div className="rounded border border-secondary p-1 d-flex align-items-center gap-2">
             <input
               type="text"
               className="form-control taskInputBox"

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import TaskModal from "./Modals/TaskModal";
 import CustomButton from "./Buttons/CustomButton";
 import { MdDataSaverOff } from "react-icons/md";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../Utils/constant";
 import SelfTaskAddAlert from "./Modals/Alerts/SelfTaskAddAlert";
+import moment from "moment/moment";
 
 function TaskAssignCardEmployee({ taskList, getTasks }) {
   const userDetails = useSelector((state) => state.userData);
@@ -65,14 +66,19 @@ function TaskAssignCardEmployee({ taskList, getTasks }) {
   };
 
   return (
-    <div className="col-12 col-lg-4 col-md-6">
-      <div className="rounded border taskCard p-3 m-2 d-flex flex-column">
-        <div className="taskContainer customscrollbar">
+    <div className="col-12">
+      <div className="rounded border border-secondary taskCardEmployee p-3 m-2 d-flex flex-column">
+        <div className="taskContainerEmployee customscrollbar">
           <div className="row align-items-center">
             {taskList.length ? (
               taskList.map((task) => {
                 return (
-                  <Fragment key={task._id}>
+                  <div
+                    className={`${
+                      task.isCompleted ? "border-success" : "border-danger"
+                    } row d-flex align-items-center border rounded mb-2 p-2`}
+                    key={task._id}
+                  >
                     <div className="col-1 cursor-pointer">
                       <div
                         className={`taskCircle ${
@@ -80,7 +86,7 @@ function TaskAssignCardEmployee({ taskList, getTasks }) {
                         }`}
                       ></div>
                     </div>
-                    <div className="col-10 cursor-pointer">
+                    <div className="col-9 d-flex align-items-center gap-1 cursor-pointer">
                       <a
                         href={task.commit}
                         target="_blank"
@@ -90,14 +96,19 @@ function TaskAssignCardEmployee({ taskList, getTasks }) {
                       >
                         {task.task}
                       </a>
+                      <div
+                        onClick={() => handleShowModal(task)}
+                        className="cursor-pointer"
+                      >
+                        <div className="bi bi-link text-success fs-5"></div>
+                      </div>
                     </div>
-                    <div
-                      onClick={() => handleShowModal(task)}
-                      className="col-1 cursor-pointer"
-                    >
-                      <div className="bi bi-link text-success fs-5"></div>
+                    <div className="col-2">
+                      <div className="secondary-text-color taskDate">
+                        {moment(task.timestamp).format("Do MMM")}
+                      </div>
                     </div>
-                  </Fragment>
+                  </div>
                 );
               })
             ) : (

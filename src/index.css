@@ -185,11 +185,20 @@ td{
 }
 
 .taskCard{
-  height: 300px !important;
+  height: 380px !important;
+}
+
+.taskCardEmployee{
+  height: 380px !important;
 }
 
 .taskContainer{
-  height: 160px !important;
+  height: 220px !important;
+  overflow: auto;
+}
+
+.taskContainerEmployee{
+  height: 280px !important;
   overflow: auto;
 }
 
@@ -219,5 +228,9 @@ td{
 
 .taskEmail{
   color: #636363 !important;
+  font-size: 12px !important;
+}
+
+.taskDate{
   font-size: 12px !important;
 }

@@ -186,9 +186,7 @@ function CustomNavbar() {
                   </NavDropdown.Item>
                 </>
               ) : (
-                <NavDropdown.Item className="text-white">
-                  Forget Password
-                </NavDropdown.Item>
+                <NavDropdown.Item>Forget Password</NavDropdown.Item>
               )}
             </NavDropdown>
             <Nav.Link className="text-white" onClick={handleLogout}>
