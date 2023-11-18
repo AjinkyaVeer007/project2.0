@@ -234,3 +234,11 @@ td{
 .taskDate{
   font-size: 12px !important;
 }
+
+.workallocationpercentagetext{
+  font-size: 14px !important;
+}
+
+.slider{
+  accent-color: tomato !important;
+}

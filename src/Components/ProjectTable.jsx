@@ -86,8 +86,8 @@ function ProjectTable({ getProjects }) {
                   <div
                     style={{
                       color: `${item.priority === "High" ? "#ff4848" : ""} ${
-                        item.priority === "Medium" ? "#ffb648" : ""
-                      } ${item.priority === "Moderate" ? "#64f837" : ""}`,
+                        item.priority === "Moderate" ? "#ffb648" : ""
+                      } ${item.priority === "Low" ? "#64f837" : ""}`,
                     }}
                     className="fw-bold"
                   >

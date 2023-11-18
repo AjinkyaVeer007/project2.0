@@ -4,10 +4,11 @@ import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { MdModeEditOutline } from "react-icons/md";
+import { MdDataSaverOff, MdModeEditOutline } from "react-icons/md";
 import EditCompanyModal from "./Modals/EditCompanyModal/EditCompanyModal";
 import { companyData } from "../Store/companySlice";
 import Table from "react-bootstrap/Table";
+import CustomButton from "./Buttons/CustomButton";
 
 function RegisterCompany() {
   // for notification
@@ -106,7 +107,7 @@ function RegisterCompany() {
             <div className="col-12 col-lg-6 col-xl-6">
               <FloatingLabel
                 controlId="floatingInput"
-                label="Company Name"
+                label="* Company Name"
                 className="m-2"
               >
                 <Form.Control
@@ -114,7 +115,7 @@ function RegisterCompany() {
                   value={companyForm.name}
                   type="text"
                   name="name"
-                  placeholder="company name"
+                  placeholder="* company name"
                 />
               </FloatingLabel>
             </div>
@@ -134,13 +135,13 @@ function RegisterCompany() {
               </FloatingLabel>
             </div>
           </div>
-          <div className="text-center mt-2">
-            <button
-              onClick={handleRegisterCompany}
-              className="custom-btn rounded-2"
-            >
-              Save
-            </button>
+          <div className="d-flex justify-content-center mt-2">
+            <CustomButton
+              handleClick={handleRegisterCompany}
+              name={"Add"}
+              bgColor={"secondary-bgcolor"}
+              preIcon={<MdDataSaverOff size={"20px"} />}
+            />
           </div>
         </div>
       ) : (

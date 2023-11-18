@@ -147,7 +147,7 @@ function CustomNavbar() {
     <Navbar sticky="top" expand="lg" className="background-color border-bottom">
       <Container fluid>
         <Navbar.Brand className="text-white">
-          {companyDetails.name}
+          {companyDetails?.name}
         </Navbar.Brand>
         <Nav>
           <RiMenu2Fill

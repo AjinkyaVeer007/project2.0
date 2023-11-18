@@ -204,17 +204,17 @@ function CreateProject() {
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => {
-                  setDropdownValue("Medium");
-                }}
-              >
-                Medium
-              </Dropdown.Item>
-              <Dropdown.Item
-                onClick={() => {
                   setDropdownValue("Moderate");
                 }}
               >
                 Moderate
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  setDropdownValue("Low");
+                }}
+              >
+                Low
               </Dropdown.Item>
             </DropdownButton>
             <Form.Control

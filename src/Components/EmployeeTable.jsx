@@ -125,6 +125,18 @@ function EmployeeTable({ handleEmployeeList }) {
               ))
             : ""}
         </tbody>
+        <tbody>
+          {!employeesDetails?.managers?.length &&
+          !employeesDetails?.employees?.length ? (
+            <tr>
+              <td colSpan={"5"} className="text-danger text-center">
+                No employees found
+              </td>
+            </tr>
+          ) : (
+            ""
+          )}
+        </tbody>
       </Table>
       <EditEmployeeModal
         show={show}

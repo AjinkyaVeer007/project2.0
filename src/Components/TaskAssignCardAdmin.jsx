@@ -10,8 +10,6 @@ function TaskAssignCardAdmin({ data, getTasks }) {
 
   const { id, name, email, taskList } = data;
 
-  console.log(id);
-
   const userDetails = useSelector((state) => state.userData);
   const projectId = useSelector((state) => state.activeProjectData);
 
